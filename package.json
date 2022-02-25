@@ -1,0 +1,24 @@
+{
+  "name": "les_petits_plats",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "sass": "sass --no-source-map --watch ./scss:./public/css",
+    "prefix": "postcss --watch ./public/css --use autoprefixer -d ./public/prefixed-css/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BaleineSousCailloux/GuillaumeLyotard_7_23092021.git"
+  },
+  "author": "BaleineSousCailloux",
+  "license": "ISC",
+  "browserslist": "last 2 versions",
+  "bugs": {
+    "url": "https://github.com/BaleineSousCailloux/GuillaumeLyotard_7_23092021/issues"
+  },
+  "homepage": "https://github.com/BaleineSousCailloux/GuillaumeLyotard_7_23092021#readme",
+  "devDependencies": {
+    "eslint": "^8.9.0"
+  }
+}

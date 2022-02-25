@@ -1,0 +1,25 @@
+@use "../utils/variables" as v;
+@use "../utils/mixins" as m;
+@use "../base/body";
+@use "../base/link";
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: fit-content;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    color: v.$titre;
+    user-select: none;
+    &__logo {
+        width: 52px;;
+        height: auto;
+    }
+    &__title {
+        @include m.txt_titre;
+        margin: 10px 0 0 0;
+    }
+}

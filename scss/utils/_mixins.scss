@@ -1,0 +1,18 @@
+@mixin txt_titre {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 2.25em;
+}
+@mixin txt_description {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 0.75em;
+}
+@mixin txt_normal {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+}
+@mixin txt_gras {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}

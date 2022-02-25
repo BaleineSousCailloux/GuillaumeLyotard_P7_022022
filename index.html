@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./public/assets/favicon.png" rel="icon" type="image/png">
+    <title>Les petits plats</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Lato:wght@400;700&family=Roboto&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./public/prefixed-css/main.css" />
+    <!-- <link rel="stylesheet" type="text/css" media="all and (max-width: 1200px)"
+        href="./public/prefixed-css/main-tab.css" />
+    <link rel="stylesheet" type="text/css" media="all and (max-width: 800px)"
+        href="./public/prefixed-css/main-mobile.css" /> -->
+
+</head>
+
+<body>
+    <header class="header" id="header">
+        <img class="header__logo" id="logo" src="./public/assets/logo.svg" alt="Logo les petits plats" />
+        <h1 class="header__title" id="title"> Les petits plats</h1>
+    </header>
+
+    <main class="main" id="main">
+
+        <section class="search__bar" id="search-bar">
+            <input class="search__bar__input" type="text" id="search-bar-input" placeholder="Rechercher une recette">
+            <img class="search__bar__icon" id="search-icon" src="./public/assets/search.svg" alt="icone loupe" />
+        </section>
+
+        <section class="search__modules" id="modules">
+
+            <div class="search__modules__tags" id="tags-selected">
+                <article class="template__tag__item" id="tag">
+                    <h3 class="template__tag__item__title">
+                        Poire
+                    </h3>
+                    <button class="template__tag__item__icon">
+                        <img class="template__tag__item__icon__cross" id="icon-cross" src="./public/assets/close.svg"
+                            alt="icone croix" />
+                    </button>
+                </article>
+                <article class="template__tag__item" id="tag">
+                    <h3 class="template__tag__item__title">
+                        Poire
+                    </h3>
+                    <button class="template__tag__item__icon">
+                        <img class="template__tag__item__icon__cross" id="icon-cross" src="./public/assets/close.svg"
+                            alt="icone croix" />
+                    </button>
+                </article>
+                <article class="template__tag__item" id="tag">
+                    <h3 class="template__tag__item__title">
+                        Poire
+                    </h3>
+                    <button class="template__tag__item__icon">
+                        <img class="template__tag__item__icon__cross" id="icon-cross" src="./public/assets/close.svg"
+                            alt="icone croix" />
+                    </button>
+                </article>
+            </div>
+
+            <div class="search__modules__container" id="modules-container">
+                <div class="search__modules__container__module" id="module-ingredients" data-type="ingredients">
+                    <div class="search__modules__container__module__bar" id="bar-ingredients" data-type="ingredients">
+                        <input class="search__modules__container__module__bar__input" id="input-ingredients"
+                            data-type="ingredients" placeholder="Ingrédients" type="text">
+                        <button class="search__modules__container__module__bar__btn" id="btn-ingredients"
+                            data-type="ingredients">
+                            <img class="search__modules__container__module__bar__btn__icon" id="btn-ingredient-icon"
+                                src="./public/assets/arrow.svg" alt="icone chevron" />
+                        </button>
+                    </div>
+                    <ul class="search__modules__container__module__list hidden" id="list-ingredients"
+                        data-type="ingredients">
+                        <li class="search__modules__container__module__list__ingredient" id="pomme-de-terre">Pomme de
+                            terre</li>
+                        <li class="search__modules__container__module__list__ingredient" id="tomate">Tomate</li>
+                        <li class="search__modules__container__module__list__ingredient" id="oeuf">Oeuf</li>
+                        <li class="search__modules__container__module__list__ingredient" id="jambon">Jambon</li>
+                        <li class="search__modules__container__module__list__ingredient" id="viande">Viande</li>
+                        <li class="search__modules__container__module__list__ingredient" id="salade">Salade</li>
+                    </ul>
+                </div>
+
+                <div class="search__modules__container__module" id="module-appareil" data-type="appareil">
+                    <div class="search__modules__container__module__bar" id="bar-appareil" data-type="appareil">
+                        <input class="search__modules__container__module__bar__input" id="input-appareil"
+                            data-type="appareil" placeholder="Appareil" type="text">
+                        <button class="search__modules__container__module__bar__btn" id="btn-appareil"
+                            data-type="appareil">
+                            <img class="search__modules__container__module__bar__btn__icon" id="btn-appareil-icon"
+                                src="./public/assets/arrow.svg" alt="icone chevron" />
+                        </button>
+                    </div>
+                    <ul class="search__modules__container__module__list hidden" id="list-appareil" data-type="appareil">
+                        <li class="search__modules__container__module__list__appareil" id="robot-mixer">Robot Mixer</li>
+                        <li class="search__modules__container__module__list__appareil" id="four">Four</li>
+                        <li class="search__modules__container__module__list__appareil" id="blender">Blender</li>
+                        <li class="search__modules__container__module__list__appareil" id="autocuiseur">Autocuiseur</li>
+                    </ul>
+                </div>
+
+                <div class="search__modules__container__module" id="module-ustensiles" data-type="ustensiles">
+                    <div class="search__modules__container__module__bar" id="bar-ustensiles" data-type="ustensiles">
+                        <input class="search__modules__container__module__bar__input" id="input-ustensiles"
+                            data-type="ustensiles" placeholder="Ustensiles" type="text">
+                        <button class="search__modules__container__module__bar__btn" id="btn-ustensiles"
+                            data-type="ustensiles">
+                            <img class="search__modules__container__module__bar__btn__icon" id="btn-ustensiles-icon"
+                                src="./public/assets/arrow.svg" alt="icone chevron" />
+                        </button>
+                    </div>
+                    <ul class="search__modules__container__module__list hidden" valid id="list-ustensiles"
+                        data-type="ustensiles">
+                        <li class="search__modules__container__module__list__ustensile" id="cuillere-en-bois">Cuillère
+                            en bois</li>
+                        <li class="search__modules__container__module__list__ustensile" id="couteau">Couteau</li>
+                        <li class="search__modules__container__module__list__ustensile" id="econome">Econome</li>
+                        <li class="search__modules__container__module__list__ustensile" id="passoire">Passoire</li>
+                        <li class="search__modules__container__module__list__ustensile" id="moulin">Moulin</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+        <span id="no-result" class="no__result hidden">Aucune recette ne correspond à votre critère... vous pouvez
+            chercher "tarte
+            aux pommes", "poisson", etc.</span>
+        <section id="result-section">
+            <article class="template__recette__item" id="recette">
+                <div class="template__recette__item__thumbnail">
+                    <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                        src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+                </div>
+                <div class="template__recette__item__details">
+                    <div class="template__recette__item__details__header">
+                        <h2 class="template__recette__item__details__header__title">Charlotte aux poires lololololololo
+                            lo</h2>
+                        <div class="template__recette__item__details__header__infos">
+                            <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                                src="./public/assets/clock.svg" alt="icone horloge" />
+                            <span class="template__recette__item__details__header__infos__time">40 min</span>
+                        </div>
+                    </div>
+                    <div class="template__recette__item__details__content">
+                        <ul class="template__recette__item__details__content__ingredients">
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Thon Rouge (ou blanc ou rose):
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    200g
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Concombre :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Tomate :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    2
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Carotte :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Citron vert :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    5
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Lait de coco :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    100ml
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="template__recette__item__details__content__description">
+                            Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
+                            Salez
+                            et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes,
+                            ajouter le
+                            coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                            l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au
+                            bout de
+                            30 minutes, ajouter le coulis de tomate.
+                        </p>
+                    </div>
+                </div>
+            </article>
+            <article class="template__recette__item" id="recette">
+                <div class="template__recette__item__thumbnail">
+                    <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                        src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+                </div>
+                <div class="template__recette__item__details">
+                    <div class="template__recette__item__details__header">
+                        <h2 class="template__recette__item__details__header__title">Charlotte aux poires</h2>
+                        <div class="template__recette__item__details__header__infos">
+                            <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                                src="./public/assets/clock.svg" alt="icone horloge" />
+                            <span class="template__recette__item__details__header__infos__time">40 min</span>
+                        </div>
+                    </div>
+                    <div class="template__recette__item__details__content">
+                        <ul class="template__recette__item__details__content__ingredients">
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Thon Rouge (ou blanc):
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    200g
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Concombre :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Tomate :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    2
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Carotte :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Citron vert :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    5
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Lait de coco :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    100ml
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="template__recette__item__details__content__description">
+                            Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
+                            Salez
+                            et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes,
+                            ajouter le
+                            coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                            l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au
+                            bout de
+                            30 minutes, ajouter le coulis de tomate.
+                        </p>
+                    </div>
+                </div>
+            </article>
+            <article class="template__recette__item" id="recette">
+                <div class="template__recette__item__thumbnail">
+                    <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                        src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+                </div>
+                <div class="template__recette__item__details">
+                    <div class="template__recette__item__details__header">
+                        <h2 class="template__recette__item__details__header__title">Charlotte aux poires</h2>
+                        <div class="template__recette__item__details__header__infos">
+                            <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                                src="./public/assets/clock.svg" alt="icone horloge" />
+                            <span class="template__recette__item__details__header__infos__time">40 min</span>
+                        </div>
+                    </div>
+                    <div class="template__recette__item__details__content">
+                        <ul class="template__recette__item__details__content__ingredients">
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Thon Rouge (ou blanc):
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    200g
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Concombre :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Tomate :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    2
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Carotte :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Citron vert :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    5
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Lait de coco :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    100ml
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="template__recette__item__details__content__description">
+                            Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
+                            Salez
+                            et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes,
+                            ajouter le
+                            coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                            l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au
+                            bout de
+                            30 minutes, ajouter le coulis de tomate.
+                        </p>
+                    </div>
+                </div>
+            </article>
+            <article class="template__recette__item" id="recette">
+                <div class="template__recette__item__thumbnail">
+                    <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                        src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+                </div>
+                <div class="template__recette__item__details">
+                    <div class="template__recette__item__details__header">
+                        <h2 class="template__recette__item__details__header__title">Charlotte aux poires</h2>
+                        <div class="template__recette__item__details__header__infos">
+                            <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                                src="./public/assets/clock.svg" alt="icone horloge" />
+                            <span class="template__recette__item__details__header__infos__time">40 min</span>
+                        </div>
+                    </div>
+                    <div class="template__recette__item__details__content">
+                        <ul class="template__recette__item__details__content__ingredients">
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Thon Rouge (ou blanc):
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    200g
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Concombre :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Tomate :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    2
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Carotte :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Citron vert :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    5
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Lait de coco :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    100ml
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="template__recette__item__details__content__description">
+                            Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
+                            Salez
+                            et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes,
+                            ajouter le
+                            coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                            l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au
+                            bout de
+                            30 minutes, ajouter le coulis de tomate.
+                        </p>
+                    </div>
+                </div>
+            </article>
+            <article class="template__recette__item" id="recette">
+                <div class="template__recette__item__thumbnail">
+                    <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                        src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+                </div>
+                <div class="template__recette__item__details">
+                    <div class="template__recette__item__details__header">
+                        <h2 class="template__recette__item__details__header__title">Charlotte aux poires</h2>
+                        <div class="template__recette__item__details__header__infos">
+                            <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                                src="./public/assets/clock.svg" alt="icone horloge" />
+                            <span class="template__recette__item__details__header__infos__time">40 min</span>
+                        </div>
+                    </div>
+                    <div class="template__recette__item__details__content">
+                        <ul class="template__recette__item__details__content__ingredients">
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Thon Rouge (ou blanc):
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    200g
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Concombre :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Tomate :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    2
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Carotte :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Citron vert :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    5
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Lait de coco :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    100ml
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="template__recette__item__details__content__description">
+                            Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
+                            Salez
+                            et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes,
+                            ajouter le
+                            coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                            l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au
+                            bout de
+                            30 minutes, ajouter le coulis de tomate.
+                        </p>
+                    </div>
+                </div>
+            </article>
+            <article class="template__recette__item" id="recette">
+                <div class="template__recette__item__thumbnail">
+                    <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                        src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+                </div>
+                <div class="template__recette__item__details">
+                    <div class="template__recette__item__details__header">
+                        <h2 class="template__recette__item__details__header__title">Charlotte aux poires</h2>
+                        <div class="template__recette__item__details__header__infos">
+                            <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                                src="./public/assets/clock.svg" alt="icone horloge" />
+                            <span class="template__recette__item__details__header__infos__time">40 min</span>
+                        </div>
+                    </div>
+                    <div class="template__recette__item__details__content">
+                        <ul class="template__recette__item__details__content__ingredients">
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Thon Rouge (ou blanc):
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    200g
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Concombre :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Tomate :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    2
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Carotte :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Citron vert :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    5
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Lait de coco :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    100ml
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="template__recette__item__details__content__description">
+                            Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
+                            Salez
+                            et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes,
+                            ajouter le
+                            coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                            l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au
+                            bout de
+                            30 minutes, ajouter le coulis de tomate.
+                        </p>
+                    </div>
+                </div>
+            </article>
+            <article class="template__recette__item" id="recette">
+                <div class="template__recette__item__thumbnail">
+                    <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                        src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+                </div>
+                <div class="template__recette__item__details">
+                    <div class="template__recette__item__details__header">
+                        <h2 class="template__recette__item__details__header__title">Charlotte aux poires</h2>
+                        <div class="template__recette__item__details__header__infos">
+                            <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                                src="./public/assets/clock.svg" alt="icone horloge" />
+                            <span class="template__recette__item__details__header__infos__time">40 min</span>
+                        </div>
+                    </div>
+                    <div class="template__recette__item__details__content">
+                        <ul class="template__recette__item__details__content__ingredients">
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Thon Rouge (ou blanc):
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    200g
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Concombre :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Tomate :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    2
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Carotte :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Citron vert :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    5
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Lait de coco :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    100ml
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="template__recette__item__details__content__description">
+                            Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
+                            Salez
+                            et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes,
+                            ajouter le
+                            coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                            l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au
+                            bout de
+                            30 minutes, ajouter le coulis de tomate.
+                        </p>
+                    </div>
+                </div>
+            </article>
+            <article class="template__recette__item" id="recette">
+                <div class="template__recette__item__thumbnail">
+                    <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                        src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+                </div>
+                <div class="template__recette__item__details">
+                    <div class="template__recette__item__details__header">
+                        <h2 class="template__recette__item__details__header__title">Charlotte aux poires</h2>
+                        <div class="template__recette__item__details__header__infos">
+                            <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                                src="./public/assets/clock.svg" alt="icone horloge" />
+                            <span class="template__recette__item__details__header__infos__time">40 min</span>
+                        </div>
+                    </div>
+                    <div class="template__recette__item__details__content">
+                        <ul class="template__recette__item__details__content__ingredients">
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Thon Rouge (ou blanc):
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    200g
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Concombre :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Tomate :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    2
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Carotte :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Citron vert :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    5
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Lait de coco :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    100ml
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="template__recette__item__details__content__description">
+                            Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
+                            Salez
+                            et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes,
+                            ajouter le
+                            coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                            l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au
+                            bout de
+                            30 minutes, ajouter le coulis de tomate.
+                        </p>
+                    </div>
+                </div>
+            </article>
+            <article class="template__recette__item" id="recette">
+                <div class="template__recette__item__thumbnail">
+                    <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                        src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+                </div>
+                <div class="template__recette__item__details">
+                    <div class="template__recette__item__details__header">
+                        <h2 class="template__recette__item__details__header__title">Charlotte aux poires</h2>
+                        <div class="template__recette__item__details__header__infos">
+                            <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                                src="./public/assets/clock.svg" alt="icone horloge" />
+                            <span class="template__recette__item__details__header__infos__time">40 min</span>
+                        </div>
+                    </div>
+                    <div class="template__recette__item__details__content">
+                        <ul class="template__recette__item__details__content__ingredients">
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Thon Rouge (ou blanc):
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    200g
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Concombre :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Tomate :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    2
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Carotte :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Citron vert :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    5
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Lait de coco :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    100ml
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="template__recette__item__details__content__description">
+                            Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
+                            Salez
+                            et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes,
+                            ajouter le
+                            coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                            l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au
+                            bout de
+                            30 minutes, ajouter le coulis de tomate.
+                        </p>
+                    </div>
+                </div>
+            </article>
+            <article class="template__recette__item" id="recette">
+                <div class="template__recette__item__thumbnail">
+                    <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                        src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+                </div>
+                <div class="template__recette__item__details">
+                    <div class="template__recette__item__details__header">
+                        <h2 class="template__recette__item__details__header__title">Charlotte aux poires</h2>
+                        <div class="template__recette__item__details__header__infos">
+                            <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                                src="./public/assets/clock.svg" alt="icone horloge" />
+                            <span class="template__recette__item__details__header__infos__time">40 min</span>
+                        </div>
+                    </div>
+                    <div class="template__recette__item__details__content">
+                        <ul class="template__recette__item__details__content__ingredients">
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Thon Rouge (ou blanc):
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    200g
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Concombre :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Tomate :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    2
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Carotte :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    1
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Citron vert :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    5
+                                </span>
+                            </li>
+                            <li class="template__recette__item__details__content__ingredients__ingredient">
+                                <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                    Lait de coco :
+                                </span>
+                                <span
+                                    class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                    100ml
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="template__recette__item__details__content__description">
+                            Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
+                            Salez
+                            et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes,
+                            ajouter le
+                            coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                            l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au
+                            bout de
+                            30 minutes, ajouter le coulis de tomate.
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <template class="template__recette" id="template-recette">
+        <article class="template__recette__item" id="recette">
+            <div class="template__recette__item__thumbnail">
+                <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+                    src="./public/assets/Photos/charlotte-aux-poires.jpg" alt="Charlotte aux poires" />
+            </div>
+            <div class="template__recette__item__details">
+                <div class="template__recette__item__details__header">
+                    <h2 class="template__recette__item__details__header__title">Charlotte aux poires</h2>
+                    <div class="template__recette__item__details__header__infos">
+                        <img class="template__recette__item__details__header__infos__icon" id="icon-clock"
+                            src="./public/assets/clock.svg" alt="icone horloge" />
+                        <span class="template__recette__item__details__header__infos__time">40 min</span>
+                    </div>
+                </div>
+                <div class="template__recette__item__details__content">
+                    <ul class="template__recette__item__details__content__ingredients">
+                        <li class="template__recette__item__details__content__ingredients__ingredient">
+                            <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                Thon Rouge (ou blanc):
+                            </span>
+                            <span class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                200g
+                            </span>
+                        </li>
+                        <li class="template__recette__item__details__content__ingredients__ingredient">
+                            <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                Concombre :
+                            </span>
+                            <span class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                1
+                            </span>
+                        </li>
+                        <li class="template__recette__item__details__content__ingredients__ingredient">
+                            <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                Tomate :
+                            </span>
+                            <span class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                2
+                            </span>
+                        </li>
+                        <li class="template__recette__item__details__content__ingredients__ingredient">
+                            <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                Carotte :
+                            </span>
+                            <span class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                1
+                            </span>
+                        </li>
+                        <li class="template__recette__item__details__content__ingredients__ingredient">
+                            <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                Citron vert :
+                            </span>
+                            <span class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                5
+                            </span>
+                        </li>
+                        <li class="template__recette__item__details__content__ingredients__ingredient">
+                            <span class="template__recette__item__details__content__ingredients__ingredient__name">
+                                Lait de coco :
+                            </span>
+                            <span class="template__recette__item__details__content__ingredients__ingredient__quantity">
+                                100ml
+                            </span>
+                        </li>
+                    </ul>
+                    <p class="template__recette__item__details__content__description">
+                        Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive. Salez
+                        et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes, ajouter le
+                        coulis de tomate, Découper le poulet en morceaux, les faire dorer dans une cocotte avec de
+                        l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de
+                        30 minutes, ajouter le coulis de tomate.
+                    </p>
+                </div>
+            </div>
+        </article>
+    </template>
+
+    <template class="template__tag" id="template-tag">
+        <article class="template__tag__item" id="tag">
+            <h3 class="template__tag__item__title">
+                Poire
+            </h3>
+            <button class="template__tag__item__icon">
+                <img class="template__tag__item__icon__cross" id="icon-cross" src="./public/assets/close.svg"
+                    alt="icone croix" />
+            </button>
+        </article>
+    </template>
+
+    <script src="./public/scripts/main.js" type="module"></script>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+a, input, button, ul {
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    list-style-type: none;
+    &:hover, &:active, &:focus {
+        border: none;
+        text-decoration: none;
+        outline: none;
+    }
+}
