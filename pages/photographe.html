@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fisheye</title>
+    <link rel="icon" type="image/png" href="../public/images/minilogo.png">
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"
+        integrity="sha512-fzff82+8pzHnwA1mQ0dzz9/E0B+ZRizq08yZfya66INZBz86qKTCt9MLU0NCNIgaMJCgeyhujhasnFUsYMsi0Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" type="text/css" href="../public/prefixed-css/photographe.css" />
+    <link rel="stylesheet" type="text/css" media="all and (max-width: 1200px)"
+        href="../public/prefixed-css/photographe-tab.css" />
+    <link rel="stylesheet" type="text/css" media="all and (max-width: 800px)"
+        href="../public/prefixed-css/photographe-mobile.css" />
+</head>
+
+
+<body id="body">
+    <header>
+        <a href="../index.html" class="container" tabindex="3" aria-label="logo du site et retour à l'accueil"
+            role="button" aria-pressed="false">
+            <img src="../public/images/logo2.png" class="logo-2" alt="logo de couleur différente au focus" />
+            <img src="../public/images/logo.png" class="logo-1" alt="logo du site et retour à l'accueil" />
+        </a>
+    </header>
+    <main id="main">
+        <section class="photographer" id="photographer">
+            <!-- insert photographer article via photographer.js -->
+        </section>
+        <section class="portfolio">
+            <div class="portfolio__menu">
+                <p class="portfolio__menu__title" tabindex="10" aria-label="trier par...">Trier par</p>
+                <div class="portfolio__menu__btn">
+                    <div class="portfolio__menu__btn1" tabindex="11" id="btn-inactive" aria-haspopup="listbox"
+                        aria-label="options de tri des médias" aria-expanded="false">
+                        <span class="portfolio__menu__btn1__pop" id="btn-vue">Popularité</span>
+                        <span class="portfolio__menu__btn1__icon fa-solid fa-angle-down"></span>
+                    </div>
+                    <div class="portfolio__menu__btn2" id="btn-select-menu" aria-haspopup="listbox" tabindex="0"
+                        aria-expanded="true">
+                        <span class="portfolio__menu__btn2__option-1">
+                            <span class="portfolio__menu__btn2__option-1-vue" aria-label="option de tri des médias"
+                                tabindex="0" data-option="pop">Popularité</span>
+                            <span class="portfolio__menu__btn2__option-1-icon fa-solid fa-angle-up"></span>
+                        </span>
+                        <span class="portfolio__menu__btn2__option-2" aria-label="option de tri des médias" tabindex="0"
+                            data-option="date">Date</span>
+                        <span class="portfolio__menu__btn2__option-3" aria-label="option de tri des médias" tabindex="0"
+                            data-option="title">Titre</span>
+                    </div>
+                </div>
+            </div>
+            <div class="portfolio__content" id="portfolioContent">
+                <!-- insert articles medias via photographer.js -->
+            </div>
+        </section>
+    </main>
+    <footer class="footer" id="footer" tabindex="9" aria-label="total des mentions j'aime, et prix par jour">
+        <div class="footer__infos">
+            <span class="footer__infos__cunt" aria-label="total des mentions j'aime">
+                <!-- insert cunt via photographer.js -->
+            </span>
+            <span class="footer__infos__heart fas fa-heart" aria-label="icone coeur"></span>
+        </div>
+        <!-- insert price via photographerCardFactory.js -->
+    </footer>
+</body>
+
+<div class="lightbox" id="lightbox" aria-label="média affiché en plein écran" tabindex="1" aria-hidden="true">
+    <div class="lightbox__content">
+        <span class="lightbox__content__icon--left fa-solid fa-angle-left" aria-label="média précédant"
+            tabindex="2"></span>
+        <div class="lightbox__content__container" id="lightbox-container">
+            <!-- insert lightbox.js -->
+        </div>
+        <span class="lightbox__content__icon--right fa-solid fa-angle-right" aria-label="média suivant"
+            tabindex="2"></span>
+        <div class="lightbox__content__icon__close" id="closeBox" aria-label="quitter l'affichage plein écran"
+            tabindex="2">
+            <span class="lightbox__content__icon__close__icon fas fa-times"></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="contact" id="contact">
+    <div class="contact__content" id="content" aria-labelledby="contactForm-photographer-name" tabindex="1">
+        <p class="contact__content__title" id="contactForm-photographer-name">
+            <!-- insert contactForm.js -->
+        </p>
+        <div class="contact__content__close" id="closeForm" tabindex="2">
+            <span class="contact__content__close__icon fas fa-times"></span>
+        </div>
+        <div class="contact__content__body">
+            <form class="contact__content__body__form" name="user" action="photographe.html" method="get" id="form">
+                <div class="contact__content__body__form__data">
+                    <label class="contact__content__body__form__data__label" for="first" tabindex="1">Prénom</label>
+                    <input class="contact__content__body__form__data__control" type="text" id="first" name="first"
+                        placeholder="Ne peut être inférieur à 2 lettres." tabindex="1" />
+                    <span class="contact__content__body__form__data__error__first" id="first-error" tabindex="1"
+                        aria-label="saisie du prénom incorrecte">Saisie
+                        incorrecte</span>
+                </div>
+                <div class="contact__content__body__form__data">
+                    <label class="contact__content__body__form__data__label" for="last" tabindex="1">Nom</label>
+                    <input class="contact__content__body__form__data__control" type="text" id="last" name="last"
+                        placeholder="Ne peut être inférieur à 1 lettre." tabindex="1" />
+                    <span class="contact__content__body__form__data__error__last" id="last-error" tabindex="1"
+                        aria-label="saisie du nom incorrecte">Saisie
+                        incorrecte</span>
+                </div>
+                <div class="contact__content__body__form__data">
+                    <label class="contact__content__body__form__data__label" for="email" tabindex="1">Email</label>
+                    <input class="contact__content__body__form__data__control" type="text" id="email" name="email"
+                        placeholder="Veuillez indiquer une adresse mail valide." tabindex="1" />
+                    <span class="contact__content__body__form__data__error__email" id="email-error" tabindex="1"
+                        aria-label="saisie de l'adresse mail incorrecte">Saisie
+                        incorrecte</span>
+                </div>
+                <div class="contact__content__body__form__data">
+                    <label class="contact__content__body__form__data__label" for="message" tabindex="1">Votre
+                        message</label>
+                    <textarea class="contact__content__body__form__data__control" id="message" name="message"
+                        maxlength="500" placeholder="Votre message est nécessaire." tabindex="1"></textarea>
+                    <span id="message-counter">
+                        <!-- insert via contactForm.js -->
+                    </span>
+                    <span id="message-max-length">/ 500</span>
+                    <span class="contact__content__body__form__data__error__message" id="message-error" tabindex="1"
+                        aria-label="votre message est vide">Saisie incorrecte</span>
+                </div>
+                <div class="contact__content__body__form__submit">
+                    <input id="submit" class="contact__content__body__form__submit__btn" type="submit" value="Envoyer"
+                        tabindex="1" role="button" aria-pressed="false" />
+                    <span class="contact__content__body__form__submit__confirm" id="confirm" tabindex="1"
+                        aria-label="Message envoyé avec succès">Message envoyé,
+                        merci.</span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="../public/scripts/tagsNavWithKeyboard.js"></script>
+<script src="../public/scripts/lightboxFactory.js"></script>
+<script src="../public/scripts/lightbox.js"></script>
+<script src="../public/scripts/contactForm.js"></script>
+<script src="../public/scripts/photographerCardFactory.js"></script>
+<script src="../public/scripts/photographerPortfolioFactory.js"></script>
+<script src="../public/scripts/photographer.js"></script>
+
+</html>

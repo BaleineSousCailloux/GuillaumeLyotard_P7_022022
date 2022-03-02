@@ -302,7 +302,8 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   margin: 0;
   padding: 0 1em;
 }
-.main .search__modules__container__module__list:not(blank) .search__modules__container__module__bar__btn__icon {
+
+#module-ingredients.expanded .search__modules__container__module__bar__btn__icon {
   transform: rotate(180deg);
 }
 

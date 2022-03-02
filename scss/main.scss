@@ -117,13 +117,14 @@
                     margin: 0;
                     padding: 0 1em
                 }
-                &:not(blank) .search__modules__container__module__bar__btn__icon {
-                    transform: rotate(180deg);
-                }
-
             }
             
         }
+    }
+}
+#module-ingredients.expanded {
+    .search__modules__container__module__bar__btn__icon {
+        transform: rotate(180deg);
     }
 }
 #module-ingredients, #module-ingredients input, #module-ingredients button {
