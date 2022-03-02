@@ -303,7 +303,7 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   padding: 0 1em;
 }
 
-#module-ingredients.expanded .search__modules__container__module__bar__btn__icon {
+#module-ingredients.expanded .search__modules__container__module__bar__btn__icon, #module-appareil.expanded .search__modules__container__module__bar__btn__icon, #module-ustensiles.expanded .search__modules__container__module__bar__btn__icon {
   transform: rotate(180deg);
 }
 

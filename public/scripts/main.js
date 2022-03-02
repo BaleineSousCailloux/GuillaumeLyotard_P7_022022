@@ -1,5 +1,5 @@
 import recettes from "../data/recipes.js";
-import recetteTemplate from "./recetteTemplate.js";
+import recetteTemplate from "./templates/recetteTemplate.js";
 
 /*
 export default `
@@ -35,8 +35,6 @@ class Recette {
         const recetteCard = document.createElement("article");
         recetteCard.classList.add("template__recette__item");
         recetteCard.setAttribute("id", "recette");
-
-        //class & id
         recetteCard.innerHTML = recetteTemplate;
         // insertion des éléments souhaités
         let nomPhoto = "";
@@ -70,7 +68,6 @@ class Recette {
                 } else {
                     quantite = ingredient.quantity;
                 }
-
                 if (ingredient.unit) {
                     quantiteIngredient.innerText = ": " + quantite + " " + ingredient.unit;
                 } else {
@@ -81,29 +78,97 @@ class Recette {
                 ingredientDetail.appendChild(quantiteIngredient);
             }
             listeIngredients.appendChild(ingredientDetail);
-
         })
         recetteCard.querySelector(".template__recette__item__details__content__description").innerText = this.ellipsis();
-        recetteCard.querySelector(".template__recette__item__details__header__title").innerText = this.nom;
-        recetteCard.querySelector(".template__recette__item__details__header__title").innerText = this.nom;
         return recetteCard;
     }
 }
-console.log(new Recette(recettes[0]).ingredients);
-console.log(recettes[0].ingredients);
 
-let recettesArray = []
+//// Fonction de mise en forme des éléments des modules
+const moduleElementCapitale = (element) => {
+    if (typeof element !== 'string') {
+        return '';
+    } else {
+        let elementModifie = element.trim().toLowerCase();
+        elementModifie = elementModifie.replaceAll(/[.,!?]/g, "");
+        return elementModifie.charAt(0).toUpperCase() + elementModifie.slice(1);
+    }
+}
+
+//// Creation des tableaux
+let recettesListe = [];
+let ingredientsListe = [];
+let appareilsListe = [];
+let ustensilesListe = [];
 recettes.forEach(recette => {
-    recettesArray.push(new Recette(recette))
+    recettesListe.push(new Recette(recette));
+    recette.ingredients.forEach(ingredient => {
+        const ingredientModifie = moduleElementCapitale(ingredient.ingredient)
+        if (!ingredientsListe.includes(ingredientModifie)) {
+            ingredientsListe.push(ingredientModifie)
+        }
+    })
+    const appareilModifie = moduleElementCapitale(recette.appliance)
+    if (!appareilsListe.includes(appareilModifie)) {
+        appareilsListe.push(appareilModifie)
+    }
+    recette.ustensils.forEach(ustensile => {
+        const ustensileModifie = moduleElementCapitale(ustensile)
+        if (!ustensilesListe.includes(ustensileModifie)) {
+            ustensilesListe.push(ustensileModifie);
+        }
+    })
 })
-console.log(recettesArray)
 
-recettesArray.forEach(recette => {
+//// Tri par ordre alphabetique des éléments
+ingredientsListe.sort();
+appareilsListe.sort();
+ustensilesListe.sort();
 
+//// Insertion des éléments
+let ingredient = "ingredient";
+let appareil = "appareil";
+let ustensile = "ustensile";
+recettesListe.forEach(recette => {
     document.getElementById("result-section").appendChild(recette.createRecetteCard());
 })
+const createItemsForModule = (list, itemType) => {
+    list.forEach(item => {
+        const domElement = document.createElement("li");
+        domElement.classList.add(`search__modules__container__module__list__${itemType}`);
+        domElement.setAttribute(`data-${itemType}`, item);
+        domElement.innerHTML = item;
+        document.getElementById(`list-${itemType}`).appendChild(domElement);
+    })
+}
+createItemsForModule(ingredientsListe, ingredient);
+createItemsForModule(appareilsListe, appareil);
+createItemsForModule(ustensilesListe, ustensile);
 
-/*///// Ajouter ... au texte de description si trop long  ///////
+
+/*ingredientsListe.forEach(ingredient => {
+    const ingredientPourListe = document.createElement("li");
+    ingredientPourListe.classList.add("search__modules__container__module__list__ingredient");
+    ingredientPourListe.setAttribute("data-ingredient", ingredient);
+    ingredientPourListe.innerHTML = ingredient;
+    document.getElementById("list-ingredient").appendChild(ingredientPourListe);
+})
+appareilsListe.forEach(appareil => {
+    const appareilPourListe = document.createElement("li");
+    appareilPourListe.classList.add("search__modules__container__module__list__appareil");
+    appareilPourListe.setAttribute("data-appareil", appareil);
+    appareilPourListe.innerHTML = appareil;
+    document.getElementById("list-appareil").appendChild(appareilPourListe);
+})
+ustensilesListe.forEach(ustensile => {
+    const ustensilePourListe = document.createElement("li");
+    ustensilePourListe.classList.add("search__modules__container__module__list__ustensile");
+    ustensilePourListe.setAttribute("data-ustensile", ustensile);
+    ustensilePourListe.innerHTML = ustensile;
+    document.getElementById("list-ustensile").appendChild(ustensilePourListe);
+})
+
+////// Ajouter ... au texte de description si trop long  ///////
 let description = document.querySelectorAll(".template__recette__item__details__content__description");
 
 const ellipsis = (p) => {
@@ -121,4 +186,7 @@ const ellipsis = (p) => {
 description.forEach(recette => {
     ellipsis(recette)
 });
+
+//console.log(new Recette(recettes[0]).ingredients);
+//console.log(recettes[0].ingredients);
 //////////////////////////////////////////////////////////////////////////*/
