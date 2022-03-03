@@ -19,7 +19,7 @@
 
 </head>
 
-<body>
+<body id="body">
     <header class="header" id="header">
         <img class="header__logo" id="logo" src="./public/assets/logo.svg" alt="Logo les petits plats" />
         <h1 class="header__title" id="title"> Les petits plats</h1>
@@ -37,8 +37,7 @@
             </div>
 
             <div class="search__modules__container" id="modules-container">
-                <div class="search__modules__container__module expanded" id="module-ingredients"
-                    data-type="ingredients">
+                <div class="search__modules__container__module" id="module-ingredients" data-type="ingredients">
                     <div class="search__modules__container__module__bar" id="bar-ingredients" data-type="ingredients">
                         <input class="search__modules__container__module__bar__input" id="input-ingredients"
                             data-type="ingredients" placeholder="Ingrédients" type="text">
@@ -48,11 +47,12 @@
                                 src="./public/assets/arrow.svg" alt="icone chevron" />
                         </button>
                     </div>
-                    <ul class="search__modules__container__module__list" id="list-ingredient" data-type="ingredients">
+                    <ul class="search__modules__container__module__list hidden" id="list-ingredient"
+                        data-type="ingredients">
                     </ul>
                 </div>
 
-                <div class="search__modules__container__module expanded" id="module-appareil" data-type="appareil">
+                <div class="search__modules__container__module" id="module-appareil" data-type="appareil">
                     <div class="search__modules__container__module__bar" id="bar-appareil" data-type="appareil">
                         <input class="search__modules__container__module__bar__input" id="input-appareil"
                             data-type="appareil" placeholder="Appareil" type="text">
@@ -62,7 +62,7 @@
                                 src="./public/assets/arrow.svg" alt="icone chevron" />
                         </button>
                     </div>
-                    <ul class="search__modules__container__module__list" id="list-appareil" data-type="appareil">
+                    <ul class="search__modules__container__module__list hidden" id="list-appareil" data-type="appareil">
                     </ul>
                 </div>
 
@@ -76,7 +76,7 @@
                                 src="./public/assets/arrow.svg" alt="icone chevron" />
                         </button>
                     </div>
-                    <ul class="search__modules__container__module__list" valid id="list-ustensile"
+                    <ul class="search__modules__container__module__list hidden" valid id="list-ustensile"
                         data-type="ustensiles">
                     </ul>
                 </div>

@@ -294,7 +294,7 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
 .main .search__modules__container__module__bar__btn__icon {
   display: inline-block;
   transform: rotate(0deg);
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 }
 .main .search__modules__container__module__list {
   display: grid;

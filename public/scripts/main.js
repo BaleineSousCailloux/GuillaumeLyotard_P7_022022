@@ -156,6 +156,39 @@ createItemsForModule(ingredientsListe, ingredient);
 createItemsForModule(appareilsListe, appareil);
 createItemsForModule(ustensilesListe, ustensile);
 
+//// ouverture/fermeture des modules de recherche
+const moduleIngredients = document.getElementById("module-ingredients");
+const moduleAppareils = document.getElementById("module-appareil");
+const moduleUstensiles = document.getElementById("module-ustensiles");
+const openModule = (moduleConcerne) => {
+    moduleConcerne.classList.add("expanded");
+    moduleConcerne.querySelector(".search__modules__container__module__list").classList.remove("hidden");
+}
+const closeModule = (moduleConcerne) => {
+    moduleConcerne.classList.remove("expanded");
+    moduleConcerne.querySelector(".search__modules__container__module__list").classList.add("hidden");
+}
+const openCloseModules = (module) => {
+    module.addEventListener("click", (open) => {
+        open.preventDefault();
+        open.stopPropagation();
+        if (!module.classList.contains("expanded")) {
+            openModule(module);
+        }
+    })
+    document.getElementById("body").addEventListener("click", (close) => {
+        close.preventDefault();
+        close.stopPropagation();
+        if (module.classList.contains("expanded") && close.target != module) {
+            closeModule(module);
+        }
+    })
+}
+openCloseModules(moduleIngredients);
+openCloseModules(moduleAppareils);
+openCloseModules(moduleUstensiles);
+
+
 //// création de tag ingredient
 const tagSection = document.getElementById("tags-selected")
 const createTagSelected = (tagSelected, tagType) => {
