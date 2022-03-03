@@ -8,24 +8,20 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: fit-content;
+    min-width: fit-content;
     margin: 20px 20px 0 0;
     padding: 0 1em;
     height: 37px;
     border-radius: 5px;
-    background-color: v.$titre;
     &__title {
         line-height: 37px;
         color: v.$txt_secondaire;
         padding-right: 1em;
         margin: 0;
         font-size: 0.875em;
-    @include m.txt_gras;
-
-
+        @include m.txt_gras;
     }
     &__icon {
-        background-color: v.$titre;
         width: fit-content;
         height: fit-content;
         &__cross {
@@ -33,4 +29,13 @@
             height: 20px;
         }
     }
+}
+#ingredient.template__tag__item, #ingredient .template__tag__item__icon {
+    background-color: v.$ingredients;
+}
+#appareil.template__tag__item, #appareil .template__tag__item__icon {
+    background-color: v.$appareils;
+}
+#ustensile.template__tag__item, #ustensile .template__tag__item__icon {
+    background-color: v.$ustensiles;
 }

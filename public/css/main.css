@@ -158,12 +158,11 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: fit-content;
+  min-width: fit-content;
   margin: 20px 20px 0 0;
   padding: 0 1em;
   height: 37px;
   border-radius: 5px;
-  background-color: #D04F4F;
 }
 .template__tag__item__title {
   line-height: 37px;
@@ -175,13 +174,24 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   font-weight: 700;
 }
 .template__tag__item__icon {
-  background-color: #D04F4F;
   width: fit-content;
   height: fit-content;
 }
 .template__tag__item__icon__cross {
   width: 20px;
   height: 20px;
+}
+
+#ingredient.template__tag__item, #ingredient .template__tag__item__icon {
+  background-color: #3282F7;
+}
+
+#appareil.template__tag__item, #appareil .template__tag__item__icon {
+  background-color: #68D9A4;
+}
+
+#ustensile.template__tag__item, #ustensile .template__tag__item__icon {
+  background-color: #ED6454;
 }
 
 .main {

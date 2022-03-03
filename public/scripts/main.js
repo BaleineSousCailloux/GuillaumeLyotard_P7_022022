@@ -1,5 +1,6 @@
 import recettes from "../data/recipes.js";
 import recetteTemplate from "./templates/recetteTemplate.js";
+import tagTemplate from "./templates/tagTemplate.js";
 
 /*
 export default `
@@ -34,7 +35,7 @@ class Recette {
     createRecetteCard() {
         const recetteCard = document.createElement("article");
         recetteCard.classList.add("template__recette__item");
-        recetteCard.setAttribute("id", "recette");
+        recetteCard.setAttribute("id", this.id);
         recetteCard.innerHTML = recetteTemplate;
         // insertion des éléments souhaités
         let nomPhoto = "";
@@ -100,6 +101,7 @@ let recettesListe = [];
 let ingredientsListe = [];
 let appareilsListe = [];
 let ustensilesListe = [];
+let tags = [];
 recettes.forEach(recette => {
     recettesListe.push(new Recette(recette));
     recette.ingredients.forEach(ingredient => {
@@ -136,14 +138,46 @@ const createItemsForModule = (list, itemType) => {
     list.forEach(item => {
         const domElement = document.createElement("li");
         domElement.classList.add(`search__modules__container__module__list__${itemType}`);
-        domElement.setAttribute(`data-${itemType}`, item);
+        domElement.setAttribute("data-type", itemType);
         domElement.innerHTML = item;
         document.getElementById(`list-${itemType}`).appendChild(domElement);
+        //// possibilité de selection, si pas encore sélectionné
+        domElement.addEventListener("click", (tagClick) => {
+            tagClick.preventDefault();
+            tagClick.stopPropagation();
+            if (!tags.includes(item)) {
+                createTagSelected(item, itemType);
+                tags.push(item);
+            }
+        })
     })
 }
 createItemsForModule(ingredientsListe, ingredient);
 createItemsForModule(appareilsListe, appareil);
 createItemsForModule(ustensilesListe, ustensile);
+
+//// création de tag ingredient
+const tagSection = document.getElementById("tags-selected")
+const createTagSelected = (tagSelected, tagType) => {
+    const tagItem = document.createElement("article");
+    tagItem.classList.add("template__tag__item");
+    tagItem.setAttribute("data-tag", tagSelected)
+    tagItem.setAttribute("id", tagType) // -> détermine la couleur en CSS
+    tagItem.innerHTML = tagTemplate;
+    tagItem.querySelector(".template__tag__item__title").innerText = tagSelected;
+    tagSection.appendChild(tagItem);
+    //// possibilité supprimer le tag
+    tagItem.querySelector(".template__tag__item__icon").addEventListener("click", (tagClose) => {
+        tagClose.preventDefault();
+        tagClose.stopPropagation();
+        const indexOfTag = tags.indexOf(tagSelected);
+        if (indexOfTag !== -1) {
+            tags.splice(indexOfTag, 1);
+        }
+        tagSection.removeChild(tagItem);
+    })
+}
+
 
 
 /*ingredientsListe.forEach(ingredient => {
