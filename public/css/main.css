@@ -196,6 +196,10 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
 
 .main {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
 }
 .main .search__bar {
   width: 100%;
@@ -233,6 +237,14 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   height: 2em;
   width: auto;
 }
+.main .search__modules {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 7% 0 7%;
+}
 .main .search__modules__tags {
   display: flex;
   flex-direction: row;
@@ -240,28 +252,29 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   justify-content: flex-start;
   box-sizing: border-box;
   width: 100%;
-  padding: 0 7% 0 7%;
   height: fit-content;
 }
 .main .search__modules__container {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  z-index: 1;
   width: 100%;
-  padding: 0 7% 0 7%;
   justify-content: flex-start;
   align-items: flex-start;
   box-sizing: border-box;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 .main .search__modules__container__module {
-  width: fit-content;
+  max-width: calc(100% - 415px);
   min-width: 170px;
   min-height: 69px;
   border-radius: 5px;
   box-sizing: border-box;
   color: #FFF;
-  margin: 0 20px 20px 0;
+}
+.main .search__modules__container__module#module-ustensiles, .main .search__modules__container__module#module-appareil {
+  margin-left: 20px;
 }
 .main .search__modules__container__module__bar {
   display: flex;
@@ -299,18 +312,25 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
 .main .search__modules__container__module__list {
   display: grid;
   width: fit-content;
+  max-height: 328px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
   font-family: "Lato", sans-serif;
   font-weight: 400;
   font-size: 1.125em;
-  line-height: 0.75em;
-  margin: 15px 0 25px 0;
-  padding: 0;
+  line-height: 1em;
+  margin: 0;
+  padding: 15px 0 25px 0;
+  overflow-y: scroll;
+  scrollbar-color: rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.1);
+  scrollbar-width: thin;
 }
 .main .search__modules__container__module__list__ingredient, .main .search__modules__container__module__list__appareil, .main .search__modules__container__module__list__ustensile {
   margin: 0;
   padding: 0 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #module-ingredients.expanded .search__modules__container__module__bar__btn__icon, #module-appareil.expanded .search__modules__container__module__bar__btn__icon, #module-ustensiles.expanded .search__modules__container__module__bar__btn__icon {
@@ -332,6 +352,7 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
 #result-section {
   width: 100%;
   box-sizing: border-box;
+  margin-top: 166px;
   padding: 0 calc(7% - 25px) 0 calc(7% - 25px);
   display: flex;
   flex-direction: row;

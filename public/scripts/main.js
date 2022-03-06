@@ -271,26 +271,30 @@ const createTagSelected = (tagSelected, tagType) => {
         const recetteCards = document.getElementsByClassName("template__recette__item");
         recettesListe.forEach(recette => {
             const recetteTags = recette.listeMotsClefs();
-            tags.forEach(tag => {
-                let searchTag = recetteTags.indexOf(tag);
-                let verif = 0;
-                if (searchTag == -1) {
-                    console.log(searchTag);
-                    verif++;
-                }
-                Array.from(recetteCards).forEach(recetteCard => {
-                    if (verif == tags.length && recetteCard.classList.contains("hidden") && recetteCard.classList.contains(recette.id)) {
-                        recetteCard.classList.remove("hidden");
+            if (tags.length >= 1) {
+                tags.forEach(tag => {
+                    let searchTag = recetteTags.indexOf(tag);
+                    let verif = 0;
+                    if (searchTag != -1) {
+                        console.log(searchTag);
+                        verif++;
                     }
+                    Array.from(recetteCards).forEach(recetteCard => {
+                        if (verif == tags.length && recetteCard.classList.contains("hidden") && recetteCard.classList.contains(recette.id)) {
+                            recetteCard.classList.remove("hidden");
+                        }
+                    })
                 })
-
-
-                console.log(verif, tags.length)
-
-            })
+            } else {
+                Array.from(recetteCards).forEach(recetteCard => {
+                    recetteCard.classList.remove("hidden");
+                })
+            }
 
         })
+
     })
+
 }
 
 /*/// fonction pour cacher une recette
