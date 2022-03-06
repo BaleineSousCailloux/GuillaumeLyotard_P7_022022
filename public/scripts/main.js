@@ -35,6 +35,7 @@ class Recette {
     createRecetteCard() {
         const recetteCard = document.createElement("article");
         recetteCard.classList.add("template__recette__item");
+        recetteCard.classList.add(this.id);
         recetteCard.setAttribute("id", this.id);
         recetteCard.innerHTML = recetteTemplate;
         // insertion des éléments souhaités
@@ -81,8 +82,33 @@ class Recette {
             listeIngredients.appendChild(ingredientDetail);
         })
         recetteCard.querySelector(".template__recette__item__details__content__description").innerText = this.ellipsis();
+
         return recetteCard;
     }
+    masquerRecette() {
+        const recetteCard = document.getElementsByClassName("template__recette__item");
+        console.log(recetteCard);
+        recetteCard[0].classList.add("hidden");
+    }
+    afficherRecette() {
+        const recetteCard = document.querySelector(".template__recette__item");
+        recetteCard.classList.remove("hidden")
+    }
+    listeMotsClefs() {
+        let motsClefs = [];
+        this.ingredients.forEach(ingredient => {
+            const ingredientFactore = moduleElementCapitale(ingredient.ingredient);
+            motsClefs.push(ingredientFactore);
+        })
+        const appareilFactore = moduleElementCapitale(this.appareil);
+        motsClefs.push(appareilFactore);
+        this.ustensiles.forEach(ustensile => {
+            const ustensileFactore = moduleElementCapitale(ustensile);
+            motsClefs.push(ustensileFactore);
+        })
+        return motsClefs
+    }
+
 }
 
 //// Fonction de mise en forme des éléments des modules
@@ -133,6 +159,7 @@ let appareil = "appareil";
 let ustensile = "ustensile";
 recettesListe.forEach(recette => {
     document.getElementById("result-section").appendChild(recette.createRecetteCard());
+    recette.listeMotsClefs();
 })
 const createItemsForModule = (list, itemType) => {
     list.forEach(item => {
@@ -148,6 +175,17 @@ const createItemsForModule = (list, itemType) => {
             if (!tags.includes(item)) {
                 createTagSelected(item, itemType);
                 tags.push(item);
+                recettesListe.forEach(recette => {
+                    const recetteTags = recette.listeMotsClefs()
+                    const recetteCards = document.getElementsByClassName("template__recette__item");
+                    Array.from(recetteCards).forEach(recetteCard => {
+                        if (!recetteTags.includes(item) && !recetteCard.classList.contains("hidden") && recetteCard.classList.contains(recette.id)) {
+                            recetteCard.classList.add("hidden");
+                        }
+                    })
+
+                })
+
             }
         })
     })
@@ -168,7 +206,7 @@ const closeModule = (moduleConcerne) => {
     moduleConcerne.classList.remove("expanded");
     moduleConcerne.querySelector(".search__modules__container__module__list").classList.add("hidden");
 }
-const openCloseModules = (module) => {
+/*const openCloseModules = (module) => {
     module.addEventListener("click", (open) => {
         open.preventDefault();
         open.stopPropagation();
@@ -183,7 +221,27 @@ const openCloseModules = (module) => {
             closeModule(module);
         }
     })
+}*/
+const openCloseModules = (module) => {
+    if (!module.classList.contains("expanded")) {
+        module.addEventListener("click", (open) => {
+            open.preventDefault();
+            open.stopPropagation();
+            if (moduleIngredients.classList.contains("expanded") || moduleAppareils.classList.contains("expanded") || moduleUstensiles.classList.contains("expanded")) {
+                closeModule(moduleIngredients);
+                closeModule(moduleAppareils);
+                closeModule(moduleUstensiles);
+            }
+            openModule(module);
+            document.getElementById("body").addEventListener("click", (close) => {
+                close.preventDefault();
+                close.stopPropagation();
+                closeModule(module);
+            })
+        })
+    }
 }
+
 openCloseModules(moduleIngredients);
 openCloseModules(moduleAppareils);
 openCloseModules(moduleUstensiles);
@@ -208,8 +266,37 @@ const createTagSelected = (tagSelected, tagType) => {
             tags.splice(indexOfTag, 1);
         }
         tagSection.removeChild(tagItem);
+
+
+        const recetteCards = document.getElementsByClassName("template__recette__item");
+        recettesListe.forEach(recette => {
+            const recetteTags = recette.listeMotsClefs();
+            tags.forEach(tag => {
+                let searchTag = recetteTags.indexOf(tag);
+                let verif = 0;
+                if (searchTag == -1) {
+                    console.log(searchTag);
+                    verif++;
+                }
+                Array.from(recetteCards).forEach(recetteCard => {
+                    if (verif == tags.length && recetteCard.classList.contains("hidden") && recetteCard.classList.contains(recette.id)) {
+                        recetteCard.classList.remove("hidden");
+                    }
+                })
+
+
+                console.log(verif, tags.length)
+
+            })
+
+        })
     })
 }
+
+/*/// fonction pour cacher une recette
+const masquerRecette = (recette) => {
+    
+}*/
 
 
 
