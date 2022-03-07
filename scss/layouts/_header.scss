@@ -21,5 +21,8 @@
     &__title {
         @include m.txt_titre;
         margin: 10px 0 0 0;
+        &:focus {
+            outline: none;
+        }
     }
 }

@@ -45,6 +45,9 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   font-size: 2.25em;
   margin: 10px 0 0 0;
 }
+.header__title:focus {
+  outline: none;
+}
 
 .template__recette__item {
   display: flex;
@@ -258,7 +261,6 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  z-index: 1;
   width: 100%;
   justify-content: flex-start;
   align-items: flex-start;
@@ -367,6 +369,6 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   height: 1px;
   overflow: hidden;
   opacity: 0;
-  top: -10px;
-  left: -10px;
+  top: -20000px;
+  left: -20000px;
 }

@@ -67,7 +67,6 @@
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
-            z-index: 1;
             width: 100%;
             justify-content: flex-start;
             align-items: flex-start;
@@ -173,6 +172,6 @@
     height: 1px;
     overflow: hidden;
     opacity: 0;
-    top: -10px;
-    left: -10px;
+    top: -20000px;
+    left: -20000px;
 }

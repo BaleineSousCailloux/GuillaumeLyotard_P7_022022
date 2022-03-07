@@ -121,6 +121,15 @@ const moduleElementCapitale = (element) => {
         return elementModifie.charAt(0).toUpperCase() + elementModifie.slice(1);
     }
 }
+const moduleElementUniformise = (element) => {
+    if (typeof element !== 'string') {
+        return '';
+    } else {
+        let elementUniforme = element.trim().toLowerCase();
+        elementUniforme = elementUniforme.replaceAll(/[.,!?]/g, "");
+        return elementUniforme;
+    }
+}
 
 //// Creation des tableaux
 let recettesListe = [];
@@ -167,6 +176,7 @@ const createItemsForModule = (list, itemType) => {
         domElement.classList.add(`search__modules__container__module__list__${itemType}`);
         domElement.setAttribute("data-type", itemType);
         domElement.innerHTML = item;
+        //document.getElementById(`list-${itemType}`).innerHTML = "";
         document.getElementById(`list-${itemType}`).appendChild(domElement);
         //// possibilité de selection, si pas encore sélectionné
         domElement.addEventListener("click", (tagClick) => {
@@ -198,30 +208,46 @@ createItemsForModule(ustensilesListe, ustensile);
 const moduleIngredients = document.getElementById("module-ingredients");
 const moduleAppareils = document.getElementById("module-appareil");
 const moduleUstensiles = document.getElementById("module-ustensiles");
+let targetItems = [];
+
 const openModule = (moduleConcerne) => {
+    //// recherche dans les éléments du module
+    moduleConcerne.querySelector(".search__modules__container__module__bar__input").addEventListener("keyup", key => {
+        let saisieUser = moduleElementUniformise(key.target.value);
+        targetItems = [];
+        if (saisieUser.length > 0) {
+            console.log(saisieUser);
+            ingredientsListe.forEach(item => { ////////////////////////////////////////////////////////
+                let mots = moduleElementUniformise(item).split(" ");
+                mots.forEach(mot => {
+                    if (mot.length > 2) {
+                        let motOk = mot;
+                        if (motOk.startsWith(saisieUser)) {
+                            if (!targetItems.includes(item)) {
+                                targetItems.push(item);
+                                document.getElementById("list-ingredient").innerHTML = "";
+                                createItemsForModule(targetItems, ingredient); ////////////////////////////////
+                            }
+
+                        }
+                    }
+                })
+
+            })
+        }
+    })
+    //// apparition du menu caché en absolu
     moduleConcerne.classList.add("expanded");
     moduleConcerne.querySelector(".search__modules__container__module__list").classList.remove("hidden");
 }
 const closeModule = (moduleConcerne) => {
     moduleConcerne.classList.remove("expanded");
     moduleConcerne.querySelector(".search__modules__container__module__list").classList.add("hidden");
+    //// remise à zéro de la recherche
+    moduleConcerne.querySelector(".search__modules__container__module__bar__input").value = "";
+    document.getElementById("list-ingredient").innerHTML = "";
+    createItemsForModule(ingredientsListe, ingredient); /////////////////////////////////////////////////////////////////
 }
-/*const openCloseModules = (module) => {
-    module.addEventListener("click", (open) => {
-        open.preventDefault();
-        open.stopPropagation();
-        if (!module.classList.contains("expanded")) {
-            openModule(module);
-        }
-    })
-    document.getElementById("body").addEventListener("click", (close) => {
-        close.preventDefault();
-        close.stopPropagation();
-        if (module.classList.contains("expanded") && close.target != module) {
-            closeModule(module);
-        }
-    })
-}*/
 const openCloseModules = (module) => {
     if (!module.classList.contains("expanded")) {
         module.addEventListener("click", (open) => {
@@ -260,7 +286,7 @@ const createTagSelected = (tagSelected, tagType) => {
     //// possibilité supprimer le tag
     tagItem.querySelector(".template__tag__item__icon").addEventListener("click", (tagClose) => {
         tagClose.preventDefault();
-        tagClose.stopPropagation();
+        //tagClose.stopPropagation();
         const indexOfTag = tags.indexOf(tagSelected);
         if (indexOfTag !== -1) {
             tags.splice(indexOfTag, 1);
@@ -272,18 +298,18 @@ const createTagSelected = (tagSelected, tagType) => {
         recettesListe.forEach(recette => {
             const recetteTags = recette.listeMotsClefs();
             if (tags.length >= 1) {
+                let verif = 0;
                 tags.forEach(tag => {
                     let searchTag = recetteTags.indexOf(tag);
-                    let verif = 0;
                     if (searchTag != -1) {
-                        console.log(searchTag);
                         verif++;
                     }
-                    Array.from(recetteCards).forEach(recetteCard => {
-                        if (verif == tags.length && recetteCard.classList.contains("hidden") && recetteCard.classList.contains(recette.id)) {
-                            recetteCard.classList.remove("hidden");
-                        }
-                    })
+                    return verif
+                })
+                Array.from(recetteCards).forEach(recetteCard => {
+                    if (verif == tags.length && recetteCard.classList.contains("hidden") && recetteCard.classList.contains(recette.id)) {
+                        recetteCard.classList.remove("hidden");
+                    }
                 })
             } else {
                 Array.from(recetteCards).forEach(recetteCard => {
@@ -302,7 +328,22 @@ const masquerRecette = (recette) => {
     
 }*/
 
-
+/*const openCloseModules = (module) => {
+    module.addEventListener("click", (open) => {
+        open.preventDefault();
+        open.stopPropagation();
+        if (!module.classList.contains("expanded")) {
+            openModule(module);
+        }
+    })
+    document.getElementById("body").addEventListener("click", (close) => {
+        close.preventDefault();
+        close.stopPropagation();
+        if (module.classList.contains("expanded") && close.target != module) {
+            closeModule(module);
+        }
+    })
+}*/
 
 /*ingredientsListe.forEach(ingredient => {
     const ingredientPourListe = document.createElement("li");
