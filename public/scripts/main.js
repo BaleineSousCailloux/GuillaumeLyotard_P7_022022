@@ -108,6 +108,14 @@ class Recette {
         })
         return motsClefs
     }
+    // 5 méthodes
+    //match allTags && saisieUser
+    // appel des 4 autres méthodes
+    //match saisieUser
+    //match ingredients
+    //match appareils
+    //match ustensiles
+
 
 }
 
@@ -125,7 +133,7 @@ const moduleElementUniformise = (element) => {
     if (typeof element !== 'string') {
         return '';
     } else {
-        let elementUniforme = element.trim().toLowerCase();
+        let elementUniforme = element.trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036F\u1DC0-\u1DFF\u1AB0-\u1AFF]+/g, '')
         elementUniforme = elementUniforme.replaceAll(/[.,!?]/g, "");
         return elementUniforme;
     }
@@ -210,15 +218,25 @@ const moduleAppareils = document.getElementById("module-appareil");
 const moduleUstensiles = document.getElementById("module-ustensiles");
 let targetItems = [];
 
-const openModule = (moduleConcerne) => {
+const openModule = (moduleConcerne, listeOriginale, itemType) => {
     //// recherche dans les éléments du module
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").addEventListener("keyup", key => {
         let saisieUser = moduleElementUniformise(key.target.value);
         targetItems = [];
         if (saisieUser.length > 0) {
             console.log(saisieUser);
-            ingredientsListe.forEach(item => { ////////////////////////////////////////////////////////
-                let mots = moduleElementUniformise(item).split(" ");
+            listeOriginale.forEach(item => { ////////////////////////////////////////////////////////
+                let mots = moduleElementUniformise(item);
+                if (mots.includes(saisieUser) && !targetItems.includes(item)) {
+                    targetItems.push(item);
+                    document.getElementById(`list-${itemType}`).innerHTML = "";
+                    createItemsForModule(targetItems, itemType);
+                } else {
+                    targetItems = targetItems.filter(items => items !== item);
+                    document.getElementById(`list-${itemType}`).innerHTML = "";
+                    createItemsForModule(targetItems, itemType);
+                }
+                /*let mots = moduleElementUniformise(item).split(" ");
                 mots.forEach(mot => {
                     if (mot.length > 2) {
                         let motOk = mot;
@@ -231,7 +249,7 @@ const openModule = (moduleConcerne) => {
 
                         }
                     }
-                })
+                })*/
 
             })
         }
@@ -240,37 +258,37 @@ const openModule = (moduleConcerne) => {
     moduleConcerne.classList.add("expanded");
     moduleConcerne.querySelector(".search__modules__container__module__list").classList.remove("hidden");
 }
-const closeModule = (moduleConcerne) => {
+const closeModule = (moduleConcerne, listeOriginale, itemType) => {
     moduleConcerne.classList.remove("expanded");
     moduleConcerne.querySelector(".search__modules__container__module__list").classList.add("hidden");
     //// remise à zéro de la recherche
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").value = "";
-    document.getElementById("list-ingredient").innerHTML = "";
-    createItemsForModule(ingredientsListe, ingredient); /////////////////////////////////////////////////////////////////
+    document.getElementById(`list-${itemType}`).innerHTML = "";
+    createItemsForModule(listeOriginale, itemType); /////////////////////////////////////////////////////////////////
 }
-const openCloseModules = (module) => {
+const openCloseModules = (module, listeOriginale, itemType) => {
     if (!module.classList.contains("expanded")) {
         module.addEventListener("click", (open) => {
             open.preventDefault();
             open.stopPropagation();
             if (moduleIngredients.classList.contains("expanded") || moduleAppareils.classList.contains("expanded") || moduleUstensiles.classList.contains("expanded")) {
-                closeModule(moduleIngredients);
-                closeModule(moduleAppareils);
-                closeModule(moduleUstensiles);
+                closeModule(moduleIngredients, ingredientsListe, ingredient);
+                closeModule(moduleAppareils, appareilsListe, appareil);
+                closeModule(moduleUstensiles, ustensilesListe, ustensile);
             }
-            openModule(module);
+            openModule(module, listeOriginale, itemType);
             document.getElementById("body").addEventListener("click", (close) => {
                 close.preventDefault();
                 close.stopPropagation();
-                closeModule(module);
+                closeModule(module, listeOriginale, itemType);
             })
         })
     }
 }
 
-openCloseModules(moduleIngredients);
-openCloseModules(moduleAppareils);
-openCloseModules(moduleUstensiles);
+openCloseModules(moduleIngredients, ingredientsListe, ingredient);
+openCloseModules(moduleAppareils, appareilsListe, appareil);
+openCloseModules(moduleUstensiles, ustensilesListe, ustensile);
 
 
 //// création de tag ingredient
@@ -287,10 +305,11 @@ const createTagSelected = (tagSelected, tagType) => {
     tagItem.querySelector(".template__tag__item__icon").addEventListener("click", (tagClose) => {
         tagClose.preventDefault();
         //tagClose.stopPropagation();
-        const indexOfTag = tags.indexOf(tagSelected);
+        tags = tags.filter(tag => tag !== tagSelected);
+        /*const indexOfTag = tags.indexOf(tagSelected);
         if (indexOfTag !== -1) {
             tags.splice(indexOfTag, 1);
-        }
+        }*/
         tagSection.removeChild(tagItem);
 
 
@@ -304,7 +323,6 @@ const createTagSelected = (tagSelected, tagType) => {
                     if (searchTag != -1) {
                         verif++;
                     }
-                    return verif
                 })
                 Array.from(recetteCards).forEach(recetteCard => {
                     if (verif == tags.length && recetteCard.classList.contains("hidden") && recetteCard.classList.contains(recette.id)) {

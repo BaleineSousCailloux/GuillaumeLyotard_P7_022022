@@ -314,6 +314,7 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
 .main .search__modules__container__module__list {
   display: grid;
   width: fit-content;
+  min-width: 186px;
   max-height: 328px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
