@@ -1,143 +1,8 @@
 import recettes from "../data/recipes.js";
-import recetteTemplate from "./templates/recetteTemplate.js";
+import Recette from "./Recette.js";
 import tagTemplate from "./templates/tagTemplate.js";
+import Utils from "./Utils.js";
 
-/*
-export default `
-<div>
-</div>
-`
-*/
-
-class Recette {
-    constructor({ id, name, servings, ingredients, time, description, appliance, ustensils }) {
-        this.id = id;
-        this.nom = name;
-        this.parts = servings;
-        this.ingredients = ingredients;
-        this.temps = time;
-        this.description = description;
-        this.appareil = appliance;
-        this.ustensiles = ustensils;
-    }
-    //methodes (fonctions intégrées)
-    ellipsis() {
-        //Récupération du texte
-        let text = this.description;
-        //On remplace les suites d'espaces par un espace puis on coupe les X premiers caractères
-        text = text.replace(/  +/g, ' ');
-        text = text.substr(0, 200);
-        //On coupe à nouveau pour enlever le dernier mot si il a été coupé en 2
-        text = text.substr(0, Math.min(text.length, text.lastIndexOf(" ")));
-        //On retourne le texte coupé avec les 3 points à la fin
-        return text + " ...";
-    }
-    createRecetteCard() {
-        const recetteCard = document.createElement("article");
-        recetteCard.classList.add("template__recette__item");
-        recetteCard.classList.add(this.id);
-        recetteCard.setAttribute("id", this.id);
-        recetteCard.innerHTML = recetteTemplate;
-        // insertion des éléments souhaités
-        let nomPhoto = "";
-        nomPhoto = this.nom;
-        nomPhoto = nomPhoto.replace(/,/g, '');
-        nomPhoto = nomPhoto.replace(/'/g, ' ');
-        nomPhoto = nomPhoto.replace(/ /g, '-');
-        nomPhoto = nomPhoto.trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036F\u1DC0-\u1DFF\u1AB0-\u1AFF]+/g, '');
-
-        recetteCard.querySelector(".template__recette__item__thumbnail").innerHTML = `
-        <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
-        src="./public/assets/Photos/${nomPhoto}.jpg" alt="${this.nom}" />`;
-        recetteCard.querySelector(".template__recette__item__details__header__title").innerText = this.nom;
-        recetteCard.querySelector(".template__recette__item__details__header__infos__time").innerText = this.temps + " min";
-        const listeIngredients = recetteCard.querySelector(".template__recette__item__details__content__ingredients");
-        const ingredients = this.ingredients;
-        ingredients.forEach(ingredient => {
-            const ingredientDetail = document.createElement("li");
-            ingredientDetail.classList.add("template__recette__item__details__content__ingredients__ingredient");
-            const nomIngredient = document.createElement("span");
-            nomIngredient.classList.add("template__recette__item__details__content__ingredients__ingredient__name");
-            nomIngredient.setAttribute("data-ingredient", ingredient.ingredient);
-            nomIngredient.innerText = ingredient.ingredient;
-            ingredientDetail.appendChild(nomIngredient);
-            if (ingredient.quantite || ingredient.quantity) {
-                const quantiteIngredient = document.createElement("span");
-                quantiteIngredient.classList.add("template__recette__item__details__content__ingredients__ingredient__quantity");
-                let quantite = ""
-                if (ingredient.quantite) {
-                    quantite = ingredient.quantite;
-                } else {
-                    quantite = ingredient.quantity;
-                }
-                if (ingredient.unit) {
-                    quantiteIngredient.innerText = ": " + quantite + " " + ingredient.unit;
-                } else {
-                    quantiteIngredient.innerText = ": " + quantite;
-                }
-                let quantiteIngredientCorrection = quantiteIngredient.textContent.replace('.', ',');
-                quantiteIngredient.innerText = quantiteIngredientCorrection;
-                ingredientDetail.appendChild(quantiteIngredient);
-            }
-            listeIngredients.appendChild(ingredientDetail);
-        })
-        recetteCard.querySelector(".template__recette__item__details__content__description").innerText = this.ellipsis();
-
-        return recetteCard;
-    }
-    masquerRecette() {
-        const recetteCard = document.getElementsByClassName("template__recette__item");
-        console.log(recetteCard);
-        recetteCard[0].classList.add("hidden");
-    }
-    afficherRecette() {
-        const recetteCard = document.querySelector(".template__recette__item");
-        recetteCard.classList.remove("hidden")
-    }
-    listeMotsClefs() {
-        let motsClefs = [];
-        this.ingredients.forEach(ingredient => {
-            const ingredientFactore = moduleElementCapitale(ingredient.ingredient);
-            motsClefs.push(ingredientFactore);
-        })
-        const appareilFactore = moduleElementCapitale(this.appareil);
-        motsClefs.push(appareilFactore);
-        this.ustensiles.forEach(ustensile => {
-            const ustensileFactore = moduleElementCapitale(ustensile);
-            motsClefs.push(ustensileFactore);
-        })
-        return motsClefs
-    }
-    // 5 méthodes
-    //match allTags && saisieUser
-    // appel des 4 autres méthodes
-    //match saisieUser
-    //match ingredients
-    //match appareils
-    //match ustensiles
-
-
-}
-
-//// Fonction de mise en forme des éléments des modules
-const moduleElementCapitale = (element) => {
-    if (typeof element !== 'string') {
-        return '';
-    } else {
-        let elementModifie = element.trim().toLowerCase();
-        elementModifie = elementModifie.replaceAll(/[.,!?]/g, "");
-        return elementModifie.charAt(0).toUpperCase() + elementModifie.slice(1);
-    }
-}
-const moduleElementUniformise = (element) => {
-    if (typeof element !== 'string') {
-        return '';
-    } else {
-        let elementUniforme = element.trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036F\u1DC0-\u1DFF\u1AB0-\u1AFF]+/g, '')
-        elementUniforme = elementUniforme.replaceAll(/[.,!?]/g, "");
-        return elementUniforme;
-    }
-}
 
 //// Creation des tableaux
 let recettesListe = [];
@@ -148,23 +13,22 @@ let tags = [];
 recettes.forEach(recette => {
     recettesListe.push(new Recette(recette));
     recette.ingredients.forEach(ingredient => {
-        const ingredientModifie = moduleElementCapitale(ingredient.ingredient)
+        const ingredientModifie = Utils.moduleElementCapitale(ingredient.ingredient)
         if (!ingredientsListe.includes(ingredientModifie)) {
             ingredientsListe.push(ingredientModifie)
         }
     })
-    const appareilModifie = moduleElementCapitale(recette.appliance)
+    const appareilModifie = Utils.moduleElementCapitale(recette.appliance)
     if (!appareilsListe.includes(appareilModifie)) {
         appareilsListe.push(appareilModifie)
     }
     recette.ustensils.forEach(ustensile => {
-        const ustensileModifie = moduleElementCapitale(ustensile)
+        const ustensileModifie = Utils.moduleElementCapitale(ustensile)
         if (!ustensilesListe.includes(ustensileModifie)) {
             ustensilesListe.push(ustensileModifie);
         }
     })
 })
-
 //// Tri par ordre alphabetique des éléments
 ingredientsListe.sort();
 appareilsListe.sort();
@@ -221,12 +85,12 @@ let targetItems = [];
 const openModule = (moduleConcerne, listeOriginale, itemType) => {
     //// recherche dans les éléments du module
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").addEventListener("keyup", key => {
-        let saisieUser = moduleElementUniformise(key.target.value);
+        let saisieUser = Utils.moduleElementUniformise(key.target.value);
         targetItems = [];
         if (saisieUser.length > 0) {
             console.log(saisieUser);
-            listeOriginale.forEach(item => { ////////////////////////////////////////////////////////
-                let mots = moduleElementUniformise(item);
+            listeOriginale.forEach(item => {
+                let mots = Utils.moduleElementUniformise(item);
                 if (mots.includes(saisieUser) && !targetItems.includes(item)) {
                     targetItems.push(item);
                     document.getElementById(`list-${itemType}`).innerHTML = "";
@@ -236,21 +100,6 @@ const openModule = (moduleConcerne, listeOriginale, itemType) => {
                     document.getElementById(`list-${itemType}`).innerHTML = "";
                     createItemsForModule(targetItems, itemType);
                 }
-                /*let mots = moduleElementUniformise(item).split(" ");
-                mots.forEach(mot => {
-                    if (mot.length > 2) {
-                        let motOk = mot;
-                        if (motOk.startsWith(saisieUser)) {
-                            if (!targetItems.includes(item)) {
-                                targetItems.push(item);
-                                document.getElementById("list-ingredient").innerHTML = "";
-                                createItemsForModule(targetItems, ingredient); ////////////////////////////////
-                            }
-
-                        }
-                    }
-                })*/
-
             })
         }
     })
@@ -264,7 +113,7 @@ const closeModule = (moduleConcerne, listeOriginale, itemType) => {
     //// remise à zéro de la recherche
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").value = "";
     document.getElementById(`list-${itemType}`).innerHTML = "";
-    createItemsForModule(listeOriginale, itemType); /////////////////////////////////////////////////////////////////
+    createItemsForModule(listeOriginale, itemType);
 }
 const openCloseModules = (module, listeOriginale, itemType) => {
     if (!module.classList.contains("expanded")) {
@@ -306,10 +155,6 @@ const createTagSelected = (tagSelected, tagType) => {
         tagClose.preventDefault();
         //tagClose.stopPropagation();
         tags = tags.filter(tag => tag !== tagSelected);
-        /*const indexOfTag = tags.indexOf(tagSelected);
-        if (indexOfTag !== -1) {
-            tags.splice(indexOfTag, 1);
-        }*/
         tagSection.removeChild(tagItem);
 
 
@@ -341,7 +186,41 @@ const createTagSelected = (tagSelected, tagType) => {
 
 }
 
-/*/// fonction pour cacher une recette
+
+
+
+/*
+
+
+export default `
+<div>
+</div>
+`
+
+const moduleElementCapitale = (element) => {
+    if (typeof element !== 'string') {
+        return '';
+    } else {
+        let elementModifie = element.trim().toLowerCase();
+        elementModifie = elementModifie.replaceAll(/[.,!?]/g, "");
+        return elementModifie.charAt(0).toUpperCase() + elementModifie.slice(1);
+    }
+}
+const moduleElementUniformise = (element) => {    //// utils
+    if (typeof element !== 'string') {
+        return '';
+    } else {
+        let elementUniforme = element.trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036F\u1DC0-\u1DFF\u1AB0-\u1AFF]+/g, '')
+        elementUniforme = elementUniforme.replaceAll(/[.,!?]/g, "");
+        return elementUniforme;
+    }
+}
+
+
+
+
+
+/// fonction pour cacher une recette
 const masquerRecette = (recette) => {
     
 }*/
@@ -403,6 +282,29 @@ const ellipsis = (p) => {
 description.forEach(recette => {
     ellipsis(recette)
 });
+
+targetItems = targetItems.filter(items => items !== item);
+document.getElementById(`list-${itemType}`).innerHTML = "";
+createItemsForModule(targetItems, itemType);
+===
+let mots = moduleElementUniformise(item).split(" ");
+mots.forEach(mot => {
+if (mot.length > 2) {
+    let motOk = mot;
+    if (motOk.startsWith(saisieUser)) {
+        if (!targetItems.includes(item)) {
+            targetItems.push(item);
+            document.getElementById("list-ingredient").innerHTML = "";
+            createItemsForModule(targetItems, ingredient);
+        }
+    }
+}
+tags = tags.filter(tag => tag !== tagSelected);
+===
+const indexOfTag = tags.indexOf(tagSelected);
+if (indexOfTag !== -1) {
+    tags.splice(indexOfTag, 1);
+}
 
 //console.log(new Recette(recettes[0]).ingredients);
 //console.log(recettes[0].ingredients);
