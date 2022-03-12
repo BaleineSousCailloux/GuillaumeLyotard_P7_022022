@@ -9,23 +9,30 @@ let recettesListe = [];
 let ingredientsListe = [];
 let appareilsListe = [];
 let ustensilesListe = [];
+let tousLesMotsClefs = [];
 let tags = [];
 recettes.forEach(recette => {
     recettesListe.push(new Recette(recette));
     recette.ingredients.forEach(ingredient => {
-        const ingredientModifie = Utils.moduleElementCapitale(ingredient.ingredient)
+        const ingredientModifie = Utils.moduleElementCapitale(ingredient.ingredient);
+        const ingredientUniformise = Utils.moduleElementUniformise(ingredient.ingredient);
         if (!ingredientsListe.includes(ingredientModifie)) {
-            ingredientsListe.push(ingredientModifie)
+            ingredientsListe.push(ingredientModifie);
+            tousLesMotsClefs.push(ingredientUniformise);
         }
     })
-    const appareilModifie = Utils.moduleElementCapitale(recette.appliance)
+    const appareilModifie = Utils.moduleElementCapitale(recette.appliance);
+    const appareilUniformise = Utils.moduleElementUniformise(recette.appliance);
     if (!appareilsListe.includes(appareilModifie)) {
-        appareilsListe.push(appareilModifie)
+        appareilsListe.push(appareilModifie);
+        tousLesMotsClefs.push(appareilUniformise);
     }
     recette.ustensils.forEach(ustensile => {
-        const ustensileModifie = Utils.moduleElementCapitale(ustensile)
+        const ustensileModifie = Utils.moduleElementCapitale(ustensile);
+        const ustensileUniformise = Utils.moduleElementUniformise(ustensile);
         if (!ustensilesListe.includes(ustensileModifie)) {
             ustensilesListe.push(ustensileModifie);
+            tousLesMotsClefs.push(ustensileUniformise);
         }
     })
 })
@@ -33,6 +40,7 @@ recettes.forEach(recette => {
 ingredientsListe.sort();
 appareilsListe.sort();
 ustensilesListe.sort();
+tousLesMotsClefs.sort();
 
 //// Insertion des éléments
 let ingredient = "ingredient";
@@ -40,7 +48,7 @@ let appareil = "appareil";
 let ustensile = "ustensile";
 recettesListe.forEach(recette => {
     document.getElementById("result-section").appendChild(recette.createRecetteCard());
-    recette.listeMotsClefs();
+    recette.listeMotsClefs(); //////// ok ou Utils.listeMotsClefs(recette) ?
 })
 const createItemsForModule = (list, itemType) => {
     list.forEach(item => {
@@ -48,7 +56,6 @@ const createItemsForModule = (list, itemType) => {
         domElement.classList.add(`search__modules__container__module__list__${itemType}`);
         domElement.setAttribute("data-type", itemType);
         domElement.innerHTML = item;
-        //document.getElementById(`list-${itemType}`).innerHTML = "";
         document.getElementById(`list-${itemType}`).appendChild(domElement);
         //// possibilité de selection, si pas encore sélectionné
         domElement.addEventListener("click", (tagClick) => {
@@ -88,7 +95,6 @@ const openModule = (moduleConcerne, listeOriginale, itemType) => {
         let saisieUser = Utils.moduleElementUniformise(key.target.value);
         targetItems = [];
         if (saisieUser.length > 0) {
-            console.log(saisieUser);
             listeOriginale.forEach(item => {
                 let mots = Utils.moduleElementUniformise(item);
                 if (mots.includes(saisieUser) && !targetItems.includes(item)) {
@@ -179,14 +185,49 @@ const createTagSelected = (tagSelected, tagType) => {
                     recetteCard.classList.remove("hidden");
                 })
             }
-
         })
-
     })
-
 }
 
-
+//// recherche principale V1
+document.getElementById("search-bar-input").addEventListener("keyup", clef => {
+    clef.preventDefault();
+    //clef.stopPropagation();
+    let saisieUtilisateur = Utils.moduleElementUniformise(clef.target.value);
+    const recetteCards = document.getElementsByClassName("template__recette__item");
+    //const recetteCardsActives = [];
+    /*Array.from(recetteCards).forEach(recetteCard => {
+        if (!recetteCard.classList.contains("hidden")) {
+            recetteCardsActives.push(recetteCard)
+        }
+    })*/
+    recettesListe.forEach(recette => {
+        let motsClefs = recette.listeMotsClefs();
+        let arrayMotsClefs = Array.from(motsClefs);
+        let control = 0;
+        if (saisieUtilisateur.length > 0) {
+            Array.from(recetteCards).forEach(card => {
+                if (card.classList.contains(recette.id)) {
+                    arrayMotsClefs.forEach(motClef => {
+                        const motClefUniformise = Utils.moduleElementUniformise(motClef);
+                        if (!motClefUniformise.includes(saisieUtilisateur)) {
+                            control++;
+                            if (control == arrayMotsClefs.length) {
+                                card.classList.add("hidden");
+                            } else {
+                                card.classList.remove("hidden");
+                            }
+                        }
+                    })
+                }
+            })
+        } else {
+            Array.from(recetteCards).forEach(card => {
+                card.classList.remove("hidden");
+            })
+        }
+    })
+})
 
 
 /*
