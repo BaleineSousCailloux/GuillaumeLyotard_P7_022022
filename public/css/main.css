@@ -364,6 +364,18 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   align-items: flex-start;
 }
 
+#no-result {
+  padding: 25px;
+}
+#no-result .no__result__main {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+}
+#no-result .no__result__help {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+
 .hidden {
   position: absolute;
   width: 1px;

@@ -77,15 +77,6 @@ export default class Recette {
 
         return recetteCard;
     }
-    masquerRecette() {
-        const recetteCard = document.getElementsByClassName("template__recette__item");
-        console.log(recetteCard);
-        recetteCard[0].classList.add("hidden");
-    }
-    afficherRecette() {
-        const recetteCard = document.querySelector(".template__recette__item");
-        recetteCard.classList.remove("hidden")
-    }
     listeMotsClefs() {
         let motsClefs = [];
         this.ingredients.forEach(ingredient => {
@@ -100,13 +91,78 @@ export default class Recette {
         })
         return motsClefs
     }
-    // 5 méthodes
-    //match allTags && saisieUser
-    // appel des 4 autres méthodes
-    //match saisieUser
-    //match ingredients
-    //match appareils
-    //match ustensiles
+    isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, userInput) {
+        const ingredientsTest = this.isMatchingIngredientsTags(ingredientsTags);
+        const appareilsTest = this.isMatchingAppareilsTags(appareilsTags);
+        const ustensilesTest = this.isMatchingUstensilesTags(ustensilesTags);
+        const userInputTest = this.isMatchingUserInput(userInput);
+        return ingredientsTest && appareilsTest && ustensilesTest && userInputTest // retourne si les 4 conditions sont true
+    }
+    isMatchingAllTags(tags) {
+        let allTagsTest = true;
+        const motsClefs = this.listeMotsClefs();
+        tags.forEach(tag => {
+            const tagFind = motsClefs.find(mot => {
+                return Utils.moduleElementUniformise(mot) === Utils.moduleElementUniformise(tag);
+            })
+            allTagsTest = tagFind && allTagsTest;
+        })
+        return allTagsTest;
+    }
+    isMatchingIngredientsTags(ingredientsTags) {
+        let ingredientsTest = true;
+        if (ingredientsTags.length > 0) {
+            ingredientsTags.forEach(ingredientTag => {
+                const ingredientFind = this.ingredients.find(ingredient => { ///filtre le tableau d'objets tout en fonctionnant "comme" un forEach, et renvoi un objet ingredient
+                    return Utils.moduleElementUniformise(ingredient.ingredient) === Utils.moduleElementUniformise(ingredientTag); // renvoi (ingredient) si true ou undefined si false
+                })
+                // ingredientFind ci-dessous revient a : ingredientFind is valid ? true si valeur, false si undefined, un objet peut ainsi devient un booléen
+                ingredientsTest = ingredientFind && ingredientsTest;  // pour la mémoire persistante du résultat précédent (true+false == false (logique combinatoire))
+            })
+        }
+        return ingredientsTest; // renvoi true si tous les tags d'ingrédients sont trouvés dans la liste d'ingredients de LA recette
+    }
+    isMatchingAppareilsTags(appareilsTags) {
+        let appareilsTest = true;
+        if (appareilsTags.length > 0) {
+            appareilsTags.forEach(appareilTag => {
+                const appareilFind = Utils.moduleElementUniformise(this.appareil).includes(Utils.moduleElementUniformise(appareilTag));
+                appareilsTest = appareilFind && appareilsTest;
+            })
+        }
+        return appareilsTest;
+    }
+    isMatchingUstensilesTags(ustensilesTags) {
+        let ustensilesTest = true;
+        if (ustensilesTags.length > 0) {
+            ustensilesTags.forEach(ustensileTag => {
+                const ustensileFind = this.ustensiles.find(ustensile => {
+                    return Utils.moduleElementUniformise(ustensile) === Utils.moduleElementUniformise(ustensileTag);
+                })
+                ustensilesTest = ustensileFind && ustensilesTest;
+            })
+        }
+        return ustensilesTest;
+    }
+    isMatchingUserInput(userInput) {
+        let userInputTest = true
 
+        // besoin de 2 tableaux qu'on va entrechoquer
+        let instanceSaisie = Utils.moduleElementUniformise(userInput);
+        let saisieUser = instanceSaisie.split(" ");
 
+        if (saisieUser > 0) {
+            saisieUser.forEach(motSaisi => {
+                const motSaisiUniformise = Utils.moduleElementUniformise(motSaisi);
+                const ingredientsTest = this.ingredients.find(ingredient => Utils.moduleElementUniformise(ingredient).includes(motSaisiUniformise)); //renvoi objet ingredient(true) ou undefined (false)
+                const appareilsTest = Utils.moduleElementUniformise(this.appareil).includes(motSaisiUniformise);
+                const ustensilesTest = this.ustensiles.find(ustensile => Utils.moduleElementUniformise(ustensile).includes(motSaisiUniformise));
+                const titreTest = Utils.moduleElementUniformise(this.nom).includes(motSaisiUniformise);
+                const descriptionTest = Utils.moduleElementUniformise(this.description).includes(motSaisiUniformise);
+                // besoin d'un seul True sur les 5 tests...
+                userInputTest = userInputTest && (ingredientsTest || appareilsTest || ustensilesTest || titreTest || descriptionTest);
+            })
+        }
+        return userInputTest;
+    }
 }

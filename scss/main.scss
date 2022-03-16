@@ -167,6 +167,15 @@
     justify-content: space-between;
     align-items: flex-start;
 }
+#no-result {
+    padding: 25px;
+    .no__result__main {
+        @include m.txt_gras;
+    }
+    .no__result__help {
+        @include m.txt_normal;
+    }
+}
 .hidden {
     position: absolute;
     width: 1px;

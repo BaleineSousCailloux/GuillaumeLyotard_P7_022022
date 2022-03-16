@@ -18,4 +18,27 @@ export default class Utils {
             return elementUniforme;
         }
     }
+    static noResultHelper(listeSource, listeToCompare) {
+        let verifAll = 0;
+        let noResult = document.getElementById("no-result");
+        listeToCompare.forEach(item => {
+            if (item.classList.contains("hidden")) {
+                verifAll++;
+            } else {
+                verifAll--;
+            }
+        })
+        if (verifAll == listeSource.length && noResult.classList.contains("hidden")) {
+            noResult.classList.remove("hidden");
+        } else {
+            noResult.classList.add("hidden")
+        }
+    }
+    static masquerItem(item) {
+        item.classList.add("hidden");
+
+    }
+    static afficherItem(item) {
+        item.classList.remove("hidden");
+    }
 }

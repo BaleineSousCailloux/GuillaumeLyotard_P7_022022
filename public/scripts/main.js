@@ -6,33 +6,40 @@ import Utils from "./Utils.js";
 
 //// Creation des tableaux
 let recettesListe = [];
+let recettesCards = [];
 let ingredientsListe = [];
 let appareilsListe = [];
 let ustensilesListe = [];
-let tousLesMotsClefs = [];
+//let tousLesMotsClefs = [];
 let tags = [];
+// nouvelle version de recherche ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+let tagsIngredients = [];
+let tagsAppareils = [];
+let tagsUstensiles = [];
+let saisieUtilisateur = [];
+
 recettes.forEach(recette => {
     recettesListe.push(new Recette(recette));
     recette.ingredients.forEach(ingredient => {
         const ingredientModifie = Utils.moduleElementCapitale(ingredient.ingredient);
-        const ingredientUniformise = Utils.moduleElementUniformise(ingredient.ingredient);
+        //const ingredientUniformise = Utils.moduleElementUniformise(ingredient.ingredient);
         if (!ingredientsListe.includes(ingredientModifie)) {
             ingredientsListe.push(ingredientModifie);
-            tousLesMotsClefs.push(ingredientUniformise);
+            //tousLesMotsClefs.push(ingredientUniformise);
         }
     })
     const appareilModifie = Utils.moduleElementCapitale(recette.appliance);
-    const appareilUniformise = Utils.moduleElementUniformise(recette.appliance);
+    //const appareilUniformise = Utils.moduleElementUniformise(recette.appliance);
     if (!appareilsListe.includes(appareilModifie)) {
         appareilsListe.push(appareilModifie);
-        tousLesMotsClefs.push(appareilUniformise);
+        //tousLesMotsClefs.push(appareilUniformise);
     }
     recette.ustensils.forEach(ustensile => {
         const ustensileModifie = Utils.moduleElementCapitale(ustensile);
-        const ustensileUniformise = Utils.moduleElementUniformise(ustensile);
+        //const ustensileUniformise = Utils.moduleElementUniformise(ustensile);
         if (!ustensilesListe.includes(ustensileModifie)) {
             ustensilesListe.push(ustensileModifie);
-            tousLesMotsClefs.push(ustensileUniformise);
+            //tousLesMotsClefs.push(ustensileUniformise);
         }
     })
 })
@@ -40,45 +47,60 @@ recettes.forEach(recette => {
 ingredientsListe.sort();
 appareilsListe.sort();
 ustensilesListe.sort();
-tousLesMotsClefs.sort();
+//tousLesMotsClefs.sort();
 
 //// Insertion des éléments
-let ingredient = "ingredient";
-let appareil = "appareil";
-let ustensile = "ustensile";
 recettesListe.forEach(recette => {
     document.getElementById("result-section").appendChild(recette.createRecetteCard());
-    recette.listeMotsClefs(); //////// ok ou Utils.listeMotsClefs(recette) ?
+    recettesCards = document.querySelectorAll(".template__recette__item")
+    //recette.listeMotsClefs(); //////// ok ou Utils.listeMotsClefs(recette) ?
 })
+
 const createItemsForModule = (list, itemType) => {
+    // pour chaque liste d'items, on crée la liste qui sera insérée dans chaque type de module
     list.forEach(item => {
         const domElement = document.createElement("li");
         domElement.classList.add(`search__modules__container__module__list__${itemType}`);
         domElement.setAttribute("data-type", itemType);
         domElement.innerHTML = item;
         document.getElementById(`list-${itemType}`).appendChild(domElement);
-        //// possibilité de selection, si pas encore sélectionné
+        //// possibilité de selection d'un item de la liste, si pas encore sélectionné
         domElement.addEventListener("click", (tagClick) => {
             tagClick.preventDefault();
             tagClick.stopPropagation();
+            // si la liste de tags sélectionnés n'inclue pas déjà l'item, on crée le tag et on l'ajoute à la liste de tags [tags]
             if (!tags.includes(item)) {
                 createTagSelected(item, itemType);
                 tags.push(item);
+                console.log(tags);
+                // pour chaque recette de la liste des recettes (data), on récupère les mots clefs de la recette et les cartes de recettes
                 recettesListe.forEach(recette => {
-                    const recetteTags = recette.listeMotsClefs()
+                    // TESTS
+                    if (!recette.isMatchingAllTags(tags)) {
+                        recettesCards.forEach(card => {
+                            if (card.classList.contains(recette.id)) {
+                                Utils.masquerItem(card);
+                            }
+                        })
+                    }
+
+                    /*const recetteTags = recette.listeMotsClefs()
                     const recetteCards = document.getElementsByClassName("template__recette__item");
                     Array.from(recetteCards).forEach(recetteCard => {
+                        // pour chaque carte de recette, si elle sa liste de mots clefs n'inclue pas l'item tagé et que son id correspond à celle de la recette (data)
                         if (!recetteTags.includes(item) && !recetteCard.classList.contains("hidden") && recetteCard.classList.contains(recette.id)) {
-                            recetteCard.classList.add("hidden");
+                            recetteCard.classList.add("hidden"); // elle est masquée
                         }
-                    })
-
+                    })*/
                 })
-
             }
         })
     })
 }
+// insertion effective des tags dans les modules, selon leur type
+let ingredient = "ingredient";
+let appareil = "appareil";
+let ustensile = "ustensile";
 createItemsForModule(ingredientsListe, ingredient);
 createItemsForModule(appareilsListe, appareil);
 createItemsForModule(ustensilesListe, ustensile);
@@ -93,7 +115,7 @@ const openModule = (moduleConcerne, listeOriginale, itemType) => {
     //// recherche dans les éléments du module
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").addEventListener("keyup", key => {
         let saisieUser = Utils.moduleElementUniformise(key.target.value);
-        targetItems = [];
+        targetItems = []; // tableau de tags correspondants à la saisie, afin de faire évoluer la liste de tags affichés dans le module
         if (saisieUser.length > 0) {
             listeOriginale.forEach(item => {
                 let mots = Utils.moduleElementUniformise(item);
@@ -116,11 +138,12 @@ const openModule = (moduleConcerne, listeOriginale, itemType) => {
 const closeModule = (moduleConcerne, listeOriginale, itemType) => {
     moduleConcerne.classList.remove("expanded");
     moduleConcerne.querySelector(".search__modules__container__module__list").classList.add("hidden");
-    //// remise à zéro de la recherche
+    //// remise à zéro de la recherche, et donc ré-insertion de l'ensemble des tags existants
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").value = "";
     document.getElementById(`list-${itemType}`).innerHTML = "";
     createItemsForModule(listeOriginale, itemType);
 }
+// ouverture d'un module au click, en s'assurrant que cela ferme les autres + fermeture du module au click à l'extérieur de celui-ci
 const openCloseModules = (module, listeOriginale, itemType) => {
     if (!module.classList.contains("expanded")) {
         module.addEventListener("click", (open) => {
@@ -140,13 +163,16 @@ const openCloseModules = (module, listeOriginale, itemType) => {
         })
     }
 }
-
+// appel effectif de la fonction d'ouverture/fermeture de chaque module
 openCloseModules(moduleIngredients, ingredientsListe, ingredient);
 openCloseModules(moduleAppareils, appareilsListe, appareil);
 openCloseModules(moduleUstensiles, ustensilesListe, ustensile);
 
+/*const insertTagInList = (tagSelected, tagtype) => {
 
-//// création de tag ingredient
+}*/
+
+//// création de tag sélectionné, selon son type
 const tagSection = document.getElementById("tags-selected")
 const createTagSelected = (tagSelected, tagType) => {
     const tagItem = document.createElement("article");
@@ -163,12 +189,21 @@ const createTagSelected = (tagSelected, tagType) => {
         tags = tags.filter(tag => tag !== tagSelected);
         tagSection.removeChild(tagItem);
 
-
-        const recetteCards = document.getElementsByClassName("template__recette__item");
+        // afficher/masquer recettes selon tags sélectionnés
+        //const recetteCards = document.getElementsByClassName("template__recette__item");
         recettesListe.forEach(recette => {
-            const recetteTags = recette.listeMotsClefs();
-            if (tags.length >= 1) {
-                let verif = 0;
+
+            //const recetteTags = recette.listeMotsClefs();
+            if (tags.length > 0) {
+                // TESTS
+                if (recette.isMatchingAllTags(tags)) {
+                    recettesCards.forEach(card => {
+                        if (card.classList.contains(recette.id)) {
+                            Utils.afficherItem(card);
+                        }
+                    })
+                }
+                /*let verif = 0;
                 tags.forEach(tag => {
                     let searchTag = recetteTags.indexOf(tag);
                     if (searchTag != -1) {
@@ -179,55 +214,123 @@ const createTagSelected = (tagSelected, tagType) => {
                     if (verif == tags.length && recetteCard.classList.contains("hidden") && recetteCard.classList.contains(recette.id)) {
                         recetteCard.classList.remove("hidden");
                     }
-                })
+                })*/
             } else {
-                Array.from(recetteCards).forEach(recetteCard => {
-                    recetteCard.classList.remove("hidden");
+                recettesCards.forEach(card => {
+                    if (card.classList.contains(recette.id)) {
+                        Utils.afficherItem(card);
+                    }
                 })
+                /*Array.from(recetteCards).forEach(recetteCard => {
+                    recetteCard.classList.remove("hidden");
+                })*/
             }
         })
     })
 }
+//// recherche multi mots
 
-//// recherche principale V1
-document.getElementById("search-bar-input").addEventListener("keyup", clef => {
-    clef.preventDefault();
-    //clef.stopPropagation();
-    let saisieUtilisateur = Utils.moduleElementUniformise(clef.target.value);
-    const recetteCards = document.getElementsByClassName("template__recette__item");
-    //const recetteCardsActives = [];
-    /*Array.from(recetteCards).forEach(recetteCard => {
-        if (!recetteCard.classList.contains("hidden")) {
-            recetteCardsActives.push(recetteCard)
-        }
-    })*/
-    recettesListe.forEach(recette => {
-        let motsClefs = recette.listeMotsClefs();
-        let arrayMotsClefs = Array.from(motsClefs);
-        let control = 0;
+// récupérer uniquement les recettes actives (si tag(s) sélectionné(s))
+const recetteCards = Array.from(document.getElementsByClassName("template__recette__item")); // tableau des cartes de recettes
+let recettesActives = []; // tableau des recettes visibles
+recetteCards.forEach(recetteCard => {
+    if (!recetteCard.classList.contains("hidden")) {
+        recettesActives.push(recetteCard);
+    }
+})
+
+document.getElementById("search-bar-input").addEventListener("keypress", clef => {
+    if (clef.key == "Enter") {
+        clef.preventDefault();
+        let input = "";
+        input = clef.target.value;
+        let saisieUtilisateur = [];
+        saisieUtilisateur = Utils.moduleElementUniformise(input).split(" "); // tableau depuis la saisie utilisateur
+        let recettesConcernee = []; // tableau des recettes (data) concernées
+        recettesListe.forEach(recette => {
+            recettesActives.forEach(recetteActive => {
+                if (recetteActive.classList.contains(recette.id)) {
+                    recettesConcernee.push(recette);
+                }
+            })
+        })
         if (saisieUtilisateur.length > 0) {
-            Array.from(recetteCards).forEach(card => {
-                if (card.classList.contains(recette.id)) {
-                    arrayMotsClefs.forEach(motClef => {
-                        const motClefUniformise = Utils.moduleElementUniformise(motClef);
-                        if (!motClefUniformise.includes(saisieUtilisateur)) {
-                            control++;
-                            if (control == arrayMotsClefs.length) {
-                                card.classList.add("hidden");
-                            } else {
-                                card.classList.remove("hidden");
+            let controlSaisies = 0;
+            saisieUtilisateur.forEach(motSaisi => { /// pour chaque mot saisi par l'utilisateur /// à parcourir après recettes
+                recettesConcernee.forEach(recette => { /// pour chaque recette (data)
+                    let motsClefs = recette.listeMotsClefs(); // récupération de la liste des mots clefs de la recette
+                    let arrayMotsClefs = Array.from(motsClefs); // tableau des mots clefs de la recette
+                    arrayMotsClefs.push(recette.nom); // ajout du nom de recette aux mots clefs
+                    recettesActives.forEach(recetteActive => { /// pour chaque recette
+                        let controlClefs = 0;
+                        if (recetteActive.classList.contains(recette.id)) { // du même id que la recette (data)
+                            arrayMotsClefs.forEach(motClef => { /// pour chaque mot clef de la recette
+                                const motClefUniformise = Utils.moduleElementUniformise(motClef);
+                                if (!motClefUniformise.includes(motSaisi)) { // s'il n'inclue pas le mot saisi
+                                    controlClefs++;
+                                }
+                            })
+                            // si aucun mot clef de la recette ne correspond au mot saisi
+                            if (controlClefs == arrayMotsClefs.length) {
+                                controlSaisies++;
+                                console.log(controlSaisies);
+                            }
+                            if (controlSaisies == saisieUtilisateur.length && !recetteActive.classList.contains("hidden")) {
+                                recetteActive.classList.add("hidden");
                             }
                         }
                     })
-                }
+
+                })
+
             })
+            controlSaisies = 0;
         } else {
-            Array.from(recetteCards).forEach(card => {
+            recettesActives.forEach(card => {
                 card.classList.remove("hidden");
             })
         }
-    })
+    }
 })
+/*
+//// recherche principale V1.1 // spliter la saisie utilisateur pour recherche mutliple ?
+document.getElementById("search-bar-input").addEventListener("keyup", clef => {
+    clef.preventDefault();
+    let saisieUtilisateur = Utils.moduleElementUniformise(clef.target.value);
+    const recetteCards = document.getElementsByClassName("template__recette__item");
+recettesListe.forEach(recette => {
+    let motsClefs = recette.listeMotsClefs();
+    let arrayMotsClefs = Array.from(motsClefs);
+    arrayMotsClefs.push(recette.nom); // ajout du nom de recette aux mots clefs
+    let control = 0;
+    if (saisieUtilisateur.length > 0) {
+        Array.from(recetteCards).forEach(card => {
+            if (card.classList.contains(recette.id)) {
+                arrayMotsClefs.forEach(motClef => {
+                    const motClefUniformise = Utils.moduleElementUniformise(motClef);
+                    if (!motClefUniformise.includes(saisieUtilisateur)) {
+                        control++;
+                    }
+                    if (control == arrayMotsClefs.length) {
+                        card.classList.add("hidden");
+                    } else {
+                        card.classList.remove("hidden");
+                    }
+                })
+            }
+        })
+        Utils.noResultHelper(recettesListe, Array.from(recetteCards));
+    } else {
+        Array.from(recetteCards).forEach(card => {
+            card.classList.remove("hidden");
+            control = 0;
+        })
+    }
+})
+})
+
+
+
 
 
 /*
