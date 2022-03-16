@@ -10,13 +10,13 @@ let recettesCards = [];
 let ingredientsListe = [];
 let appareilsListe = [];
 let ustensilesListe = [];
-//let tousLesMotsClefs = [];
+//let tousLesMotsClefs = []; // inutile ?
 let tags = [];
-// nouvelle version de recherche ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*/ nouvelle oragnisation des tags de recherche >>> suspendue...
 let tagsIngredients = [];
 let tagsAppareils = [];
 let tagsUstensiles = [];
-let saisieUtilisateur = [];
+let saisieUtilisateur = [];  */
 
 recettes.forEach(recette => {
     recettesListe.push(new Recette(recette));
@@ -25,21 +25,21 @@ recettes.forEach(recette => {
         //const ingredientUniformise = Utils.moduleElementUniformise(ingredient.ingredient);
         if (!ingredientsListe.includes(ingredientModifie)) {
             ingredientsListe.push(ingredientModifie);
-            //tousLesMotsClefs.push(ingredientUniformise);
+            //tousLesMotsClefs.push(ingredientUniformise); inutile ?
         }
     })
     const appareilModifie = Utils.moduleElementCapitale(recette.appliance);
     //const appareilUniformise = Utils.moduleElementUniformise(recette.appliance);
     if (!appareilsListe.includes(appareilModifie)) {
         appareilsListe.push(appareilModifie);
-        //tousLesMotsClefs.push(appareilUniformise);
+        //tousLesMotsClefs.push(appareilUniformise); inutile ?
     }
     recette.ustensils.forEach(ustensile => {
         const ustensileModifie = Utils.moduleElementCapitale(ustensile);
         //const ustensileUniformise = Utils.moduleElementUniformise(ustensile);
         if (!ustensilesListe.includes(ustensileModifie)) {
             ustensilesListe.push(ustensileModifie);
-            //tousLesMotsClefs.push(ustensileUniformise);
+            //tousLesMotsClefs.push(ustensileUniformise); inutile ?
         }
     })
 })
@@ -47,13 +47,13 @@ recettes.forEach(recette => {
 ingredientsListe.sort();
 appareilsListe.sort();
 ustensilesListe.sort();
-//tousLesMotsClefs.sort();
+//tousLesMotsClefs.sort(); inutile ?
 
 //// Insertion des éléments
 recettesListe.forEach(recette => {
     document.getElementById("result-section").appendChild(recette.createRecetteCard());
     recettesCards = document.querySelectorAll(".template__recette__item")
-    //recette.listeMotsClefs(); //////// ok ou Utils.listeMotsClefs(recette) ?
+    //recette.listeMotsClefs(); //////// ok ou Utils.listeMotsClefs(recette)  inutile ?
 })
 
 const createItemsForModule = (list, itemType) => {
@@ -75,7 +75,7 @@ const createItemsForModule = (list, itemType) => {
                 console.log(tags);
                 // pour chaque recette de la liste des recettes (data), on récupère les mots clefs de la recette et les cartes de recettes
                 recettesListe.forEach(recette => {
-                    // TESTS
+                    // NOUVELLE VERSION
                     if (!recette.isMatchingAllTags(tags)) {
                         recettesCards.forEach(card => {
                             if (card.classList.contains(recette.id)) {
@@ -83,7 +83,7 @@ const createItemsForModule = (list, itemType) => {
                             }
                         })
                     }
-
+                    // ancienne version
                     /*const recetteTags = recette.listeMotsClefs()
                     const recetteCards = document.getElementsByClassName("template__recette__item");
                     Array.from(recetteCards).forEach(recetteCard => {
@@ -168,9 +168,6 @@ openCloseModules(moduleIngredients, ingredientsListe, ingredient);
 openCloseModules(moduleAppareils, appareilsListe, appareil);
 openCloseModules(moduleUstensiles, ustensilesListe, ustensile);
 
-/*const insertTagInList = (tagSelected, tagtype) => {
-
-}*/
 
 //// création de tag sélectionné, selon son type
 const tagSection = document.getElementById("tags-selected")
@@ -190,12 +187,12 @@ const createTagSelected = (tagSelected, tagType) => {
         tagSection.removeChild(tagItem);
 
         // afficher/masquer recettes selon tags sélectionnés
-        //const recetteCards = document.getElementsByClassName("template__recette__item");
+        //const recetteCards = document.getElementsByClassName("template__recette__item"); inutile ?
         recettesListe.forEach(recette => {
 
-            //const recetteTags = recette.listeMotsClefs();
+            //const recetteTags = recette.listeMotsClefs(); inutile ?
             if (tags.length > 0) {
-                // TESTS
+                // NOUVELLE VERSION
                 if (recette.isMatchingAllTags(tags)) {
                     recettesCards.forEach(card => {
                         if (card.classList.contains(recette.id)) {
@@ -203,6 +200,7 @@ const createTagSelected = (tagSelected, tagType) => {
                         }
                     })
                 }
+                // ancienne version
                 /*let verif = 0;
                 tags.forEach(tag => {
                     let searchTag = recetteTags.indexOf(tag);
