@@ -74,7 +74,6 @@ export default class Recette {
             listeIngredients.appendChild(ingredientDetail);
         })
         recetteCard.querySelector(".template__recette__item__details__content__description").innerText = this.ellipsis();
-
         return recetteCard;
     }
     listeMotsClefs() {
@@ -91,23 +90,82 @@ export default class Recette {
         })
         return motsClefs
     }
-    isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, userInput) {
-        const ingredientsTest = this.isMatchingIngredientsTags(ingredientsTags);
+    isMatchingAllTagsAndUserInput(/*ingredientsTags, appareilsTags, ustensilesTags*/tags, userInput) {
+        let allIsMatching = true
+        const tagsTest = this.isMatchingAllTags(tags);
+        /*const ingredientsTest = this.isMatchingIngredientsTags(ingredientsTags);
         const appareilsTest = this.isMatchingAppareilsTags(appareilsTags);
-        const ustensilesTest = this.isMatchingUstensilesTags(ustensilesTags);
+        const ustensilesTest = this.isMatchingUstensilesTags(ustensilesTags);*/
         const userInputTest = this.isMatchingUserInput(userInput);
-        return ingredientsTest && appareilsTest && ustensilesTest && userInputTest // retourne si les 4 conditions sont true
+        //allIsMatching = ingredientsTest && appareilsTest && ustensilesTest && userInputTest // retourne si les 4 conditions sont true
+        //return allIsMatching
+        allIsMatching = tagsTest && userInputTest;
+
+
+        if (tags.length > 0 || userInput > 0) {
+            if (allIsMatching) {
+                Utils.afficherItem(this.recetteCard);
+            } else {
+                Utils.masquerItem(this.recetteCard);
+            }
+        } else {
+            Utils.afficherItem(this.recetteCard);
+        }
     }
-    isMatchingAllTags(tags) {
+
+    isMatchingAllTags(tags, cards) {
         let allTagsTest = true;
         const motsClefs = this.listeMotsClefs();
-        tags.forEach(tag => {
-            const tagFind = motsClefs.find(mot => {
-                return Utils.moduleElementUniformise(mot) === Utils.moduleElementUniformise(tag);
+        cards = Array.from(cards);
+        //return allTagsTest;
+        //const recetteCard = this.createRecetteCard();
+        //let exCard = "";
+        //let exCardIndex = -1;
+        if (tags.length > 0) {
+            tags.forEach(tag => {
+                const tagFind = motsClefs.find(mot => {
+                    return Utils.moduleElementUniformise(mot) === Utils.moduleElementUniformise(tag);
+                })
+                allTagsTest = tagFind && allTagsTest;
+                cards.forEach(card => {
+                    if (card.classList.contains(this.id)) {
+                        if (allTagsTest) {
+                            Utils.afficherItem(card);
+                        } else {
+                            Utils.masquerItem(card);
+                        }
+                        /*Utils.masquerItem(recetteCard);
+                        //cards.forEach(card => {
+                            //let index = -1
+                            if (card.classList.contains(recetteCard.id)) {
+                                destination.replaceChild(recetteCard, card)
+                                index = cards.indexOf(card);
+                                if (index != -1) {
+                                    cards[index] = recetteCard;
+                                }
+                            }
+                        })
+                    } else {
+                        Utils.afficherItem(recetteCard);
+                        cards.forEach(card => {
+                            let index = -1
+                            if (card.classList.contains(recetteCard.id)) {
+                                destination.replaceChild(recetteCard, card)
+                                index = cards.indexOf(card);
+                                if (index != -1) {
+                                    cards[index] = recetteCard;
+                                }
+                            }
+                        })
+                    }*/
+                    }
+                })
             })
-            allTagsTest = tagFind && allTagsTest;
-        })
-        return allTagsTest;
+        } else {
+            cards.forEach(card => {
+                Utils.afficherItem(card);
+            })
+        }
     }
     isMatchingIngredientsTags(ingredientsTags) {
         let ingredientsTest = true;

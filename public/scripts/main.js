@@ -48,10 +48,10 @@ ingredientsListe.sort();
 appareilsListe.sort();
 ustensilesListe.sort();
 //tousLesMotsClefs.sort(); inutile ?
-
+const domSectionResult = document.getElementById("result-section");
 //// Insertion des éléments
 recettesListe.forEach(recette => {
-    document.getElementById("result-section").appendChild(recette.createRecetteCard());
+    domSectionResult.appendChild(recette.createRecetteCard());
     recettesCards = document.querySelectorAll(".template__recette__item")
     //recette.listeMotsClefs(); //////// ok ou Utils.listeMotsClefs(recette)  inutile ?
 })
@@ -75,8 +75,9 @@ const createItemsForModule = (list, itemType) => {
                 console.log(tags);
                 // pour chaque recette de la liste des recettes (data), on récupère les mots clefs de la recette et les cartes de recettes
                 recettesListe.forEach(recette => {
+                    recette.isMatchingAllTags(tags, recettesCards);
                     // NOUVELLE VERSION
-                    if (!recette.isMatchingAllTags(tags)) {
+                    /*if (!recette.isMatchingAllTags(tags)) {
                         recettesCards.forEach(card => {
                             if (card.classList.contains(recette.id)) {
                                 Utils.masquerItem(card);
@@ -189,9 +190,10 @@ const createTagSelected = (tagSelected, tagType) => {
         // afficher/masquer recettes selon tags sélectionnés
         //const recetteCards = document.getElementsByClassName("template__recette__item"); inutile ?
         recettesListe.forEach(recette => {
+            recette.isMatchingAllTags(tags, recettesCards);
 
             //const recetteTags = recette.listeMotsClefs(); inutile ?
-            if (tags.length > 0) {
+            /*if (tags.length > 0) {
                 // NOUVELLE VERSION
                 if (recette.isMatchingAllTags(tags)) {
                     recettesCards.forEach(card => {
@@ -201,7 +203,7 @@ const createTagSelected = (tagSelected, tagType) => {
                     })
                 }
                 // ancienne version
-                /*let verif = 0;
+                let verif = 0;
                 tags.forEach(tag => {
                     let searchTag = recetteTags.indexOf(tag);
                     if (searchTag != -1) {
@@ -212,17 +214,17 @@ const createTagSelected = (tagSelected, tagType) => {
                     if (verif == tags.length && recetteCard.classList.contains("hidden") && recetteCard.classList.contains(recette.id)) {
                         recetteCard.classList.remove("hidden");
                     }
-                })*/
+                })
             } else {
                 recettesCards.forEach(card => {
                     if (card.classList.contains(recette.id)) {
                         Utils.afficherItem(card);
                     }
                 })
-                /*Array.from(recetteCards).forEach(recetteCard => {
+                Array.from(recetteCards).forEach(recetteCard => {
                     recetteCard.classList.remove("hidden");
-                })*/
-            }
+                })
+            }*/
         })
     })
 }
