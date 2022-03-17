@@ -117,10 +117,6 @@ export default class Recette {
         let allTagsTest = true;
         const motsClefs = this.listeMotsClefs();
         cards = Array.from(cards);
-        //return allTagsTest;
-        //const recetteCard = this.createRecetteCard();
-        //let exCard = "";
-        //let exCardIndex = -1;
         if (tags.length > 0) {
             tags.forEach(tag => {
                 const tagFind = motsClefs.find(mot => {
@@ -134,30 +130,6 @@ export default class Recette {
                         } else {
                             Utils.masquerItem(card);
                         }
-                        /*Utils.masquerItem(recetteCard);
-                        //cards.forEach(card => {
-                            //let index = -1
-                            if (card.classList.contains(recetteCard.id)) {
-                                destination.replaceChild(recetteCard, card)
-                                index = cards.indexOf(card);
-                                if (index != -1) {
-                                    cards[index] = recetteCard;
-                                }
-                            }
-                        })
-                    } else {
-                        Utils.afficherItem(recetteCard);
-                        cards.forEach(card => {
-                            let index = -1
-                            if (card.classList.contains(recetteCard.id)) {
-                                destination.replaceChild(recetteCard, card)
-                                index = cards.indexOf(card);
-                                if (index != -1) {
-                                    cards[index] = recetteCard;
-                                }
-                            }
-                        })
-                    }*/
                     }
                 })
             })
