@@ -90,54 +90,24 @@ export default class Recette {
         })
         return motsClefs
     }
-    isMatchingAllTagsAndUserInput(/*ingredientsTags, appareilsTags, ustensilesTags*/tags, userInput) {
+    isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, userInput, cardsList) {
         let allIsMatching = true
-        const tagsTest = this.isMatchingAllTags(tags);
-        /*const ingredientsTest = this.isMatchingIngredientsTags(ingredientsTags);
+        //const tagsTest = this.isMatchingAllTags(tags);
+        const ingredientsTest = this.isMatchingIngredientsTags(ingredientsTags);
         const appareilsTest = this.isMatchingAppareilsTags(appareilsTags);
-        const ustensilesTest = this.isMatchingUstensilesTags(ustensilesTags);*/
+        const ustensilesTest = this.isMatchingUstensilesTags(ustensilesTags);
         const userInputTest = this.isMatchingUserInput(userInput);
-        //allIsMatching = ingredientsTest && appareilsTest && ustensilesTest && userInputTest // retourne si les 4 conditions sont true
-        //return allIsMatching
-        allIsMatching = tagsTest && userInputTest;
+        allIsMatching = ingredientsTest && appareilsTest && ustensilesTest && userInputTest // retourne si les 4 conditions sont true
 
-
-        if (tags.length > 0 || userInput > 0) {
-            if (allIsMatching) {
-                Utils.afficherItem(this.recetteCard);
-            } else {
-                Utils.masquerItem(this.recetteCard);
+        cardsList.forEach(card => {
+            if (card.classList.contains(this.id)) {
+                if (allIsMatching) {
+                    Utils.afficherItem(card);
+                } else {
+                    Utils.masquerItem(card);
+                }
             }
-        } else {
-            Utils.afficherItem(this.recetteCard);
-        }
-    }
-
-    isMatchingAllTags(tags, cards) {
-        let allTagsTest = true;
-        const motsClefs = this.listeMotsClefs();
-        cards = Array.from(cards);
-        if (tags.length > 0) {
-            tags.forEach(tag => {
-                const tagFind = motsClefs.find(mot => {
-                    return Utils.moduleElementUniformise(mot) === Utils.moduleElementUniformise(tag);
-                })
-                allTagsTest = tagFind && allTagsTest;
-                cards.forEach(card => {
-                    if (card.classList.contains(this.id)) {
-                        if (allTagsTest) {
-                            Utils.afficherItem(card);
-                        } else {
-                            Utils.masquerItem(card);
-                        }
-                    }
-                })
-            })
-        } else {
-            cards.forEach(card => {
-                Utils.afficherItem(card);
-            })
-        }
+        })
     }
     isMatchingIngredientsTags(ingredientsTags) {
         let ingredientsTest = true;
@@ -177,18 +147,16 @@ export default class Recette {
     isMatchingUserInput(userInput) {
         let userInputTest = true
 
-        // besoin de 2 tableaux qu'on va entrechoquer
         let instanceSaisie = Utils.moduleElementUniformise(userInput);
         let saisieUser = instanceSaisie.split(" ");
 
-        if (saisieUser > 0) {
+        if (saisieUser.length > 0) {
             saisieUser.forEach(motSaisi => {
-                const motSaisiUniformise = Utils.moduleElementUniformise(motSaisi);
-                const ingredientsTest = this.ingredients.find(ingredient => Utils.moduleElementUniformise(ingredient).includes(motSaisiUniformise)); //renvoi objet ingredient(true) ou undefined (false)
-                const appareilsTest = Utils.moduleElementUniformise(this.appareil).includes(motSaisiUniformise);
-                const ustensilesTest = this.ustensiles.find(ustensile => Utils.moduleElementUniformise(ustensile).includes(motSaisiUniformise));
-                const titreTest = Utils.moduleElementUniformise(this.nom).includes(motSaisiUniformise);
-                const descriptionTest = Utils.moduleElementUniformise(this.description).includes(motSaisiUniformise);
+                const ingredientsTest = this.ingredients.find(ingredient => Utils.moduleElementUniformise(ingredient).includes(motSaisi)); //renvoi objet ingredient(true) ou undefined (false)
+                const appareilsTest = Utils.moduleElementUniformise(this.appareil).includes(motSaisi);
+                const ustensilesTest = this.ustensiles.find(ustensile => Utils.moduleElementUniformise(ustensile).includes(motSaisi));
+                const titreTest = Utils.moduleElementUniformise(this.nom).includes(motSaisi);
+                const descriptionTest = Utils.moduleElementUniformise(this.description).includes(motSaisi);
                 // besoin d'un seul True sur les 5 tests...
                 userInputTest = userInputTest && (ingredientsTest || appareilsTest || ustensilesTest || titreTest || descriptionTest);
             })
