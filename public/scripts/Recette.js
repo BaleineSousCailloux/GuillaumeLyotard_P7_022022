@@ -25,11 +25,11 @@ export default class Recette {
         return text + " ...";
     }
     createRecetteCard() {
-        const recetteCard = document.createElement("article");
-        recetteCard.classList.add("template__recette__item");
-        recetteCard.classList.add(this.id);
-        recetteCard.setAttribute("id", this.id);
-        recetteCard.innerHTML = recetteTemplate;
+        this.recetteCard = document.createElement("article");
+        this.recetteCard.classList.add("template__recette__item");
+        this.recetteCard.classList.add(this.id);
+        this.recetteCard.setAttribute("id", this.id);
+        this.recetteCard.innerHTML = recetteTemplate;
         // insertion des éléments souhaités
         let nomPhoto = "";
         nomPhoto = this.nom;
@@ -38,12 +38,12 @@ export default class Recette {
         nomPhoto = nomPhoto.replace(/ /g, '-');
         nomPhoto = nomPhoto.trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036F\u1DC0-\u1DFF\u1AB0-\u1AFF]+/g, '');
 
-        recetteCard.querySelector(".template__recette__item__thumbnail").innerHTML = `
+        this.recetteCard.querySelector(".template__recette__item__thumbnail").innerHTML = `
         <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
         src="./public/assets/Photos/${nomPhoto}.jpg" alt="${this.nom}" />`;
-        recetteCard.querySelector(".template__recette__item__details__header__title").innerText = this.nom;
-        recetteCard.querySelector(".template__recette__item__details__header__infos__time").innerText = this.temps + " min";
-        const listeIngredients = recetteCard.querySelector(".template__recette__item__details__content__ingredients");
+        this.recetteCard.querySelector(".template__recette__item__details__header__title").innerText = this.nom;
+        this.recetteCard.querySelector(".template__recette__item__details__header__infos__time").innerText = this.temps + " min";
+        const listeIngredients = this.recetteCard.querySelector(".template__recette__item__details__content__ingredients");
         const ingredients = this.ingredients;
         ingredients.forEach(ingredient => {
             const ingredientDetail = document.createElement("li");
@@ -73,8 +73,8 @@ export default class Recette {
             }
             listeIngredients.appendChild(ingredientDetail);
         })
-        recetteCard.querySelector(".template__recette__item__details__content__description").innerText = this.ellipsis();
-        return recetteCard;
+        this.recetteCard.querySelector(".template__recette__item__details__content__description").innerText = this.ellipsis();
+        return this.recetteCard;
     }
     listeMotsClefs() {
         let motsClefs = [];
@@ -90,7 +90,7 @@ export default class Recette {
         })
         return motsClefs
     }
-    isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, userInput, cardsList) {
+    isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, userInput) {
         let allIsMatching = true
         //const tagsTest = this.isMatchingAllTags(tags);
         const ingredientsTest = this.isMatchingIngredientsTags(ingredientsTags);
@@ -99,15 +99,13 @@ export default class Recette {
         const userInputTest = this.isMatchingUserInput(userInput);
         allIsMatching = ingredientsTest && appareilsTest && ustensilesTest && userInputTest // retourne si les 4 conditions sont true
 
-        cardsList.forEach(card => {
-            if (card.classList.contains(this.id)) {
-                if (allIsMatching) {
-                    Utils.afficherItem(card);
-                } else {
-                    Utils.masquerItem(card);
-                }
-            }
-        })
+        if (allIsMatching) {
+            Utils.afficherItem(this.recetteCard);
+        } else {
+            Utils.masquerItem(this.recetteCard);
+        }
+
+        return allIsMatching;
     }
     isMatchingIngredientsTags(ingredientsTags) {
         let ingredientsTest = true;

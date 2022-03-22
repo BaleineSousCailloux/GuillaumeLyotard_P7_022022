@@ -18,17 +18,9 @@ export default class Utils {
             return elementUniforme;
         }
     }
-    static noResultHelper(listeSource, listeToCompare) {
-        let verifAll = 0;
-        let noResult = document.getElementById("no-result");
-        listeToCompare.forEach(item => {
-            if (item.classList.contains("hidden")) {
-                verifAll++;
-            } else {
-                verifAll--;
-            }
-        })
-        if (verifAll == listeSource.length && noResult.classList.contains("hidden")) {
+    static noResultHelper(match) {
+        const noResult = document.getElementById("no-result");
+        if (!match) {
             noResult.classList.remove("hidden");
         } else {
             noResult.classList.add("hidden")
