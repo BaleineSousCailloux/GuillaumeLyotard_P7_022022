@@ -11,34 +11,23 @@ export default class Recette {
         this.description = description;
         this.appareil = appliance;
         this.ustensiles = ustensils;
-        this.visible = true;
+        this.visible = true; /// pour la fonction de maj des listes d'items
     }
-    //methodes (fonctions intégrées)
-    ellipsis() {
-        //Récupération du texte
-        let text = this.description;
-        //On remplace les suites d'espaces par un espace puis on coupe les X premiers caractères
-        text = text.replace(/  +/g, ' ');
-        text = text.substr(0, 200);
-        //On coupe à nouveau pour enlever le dernier mot si il a été coupé en 2
-        text = text.substr(0, Math.min(text.length, text.lastIndexOf(" ")));
-        //On retourne le texte coupé avec les 3 points à la fin
-        return text + " ...";
-    }
+    //// création de la carte recette
     createRecetteCard() {
         this.recetteCard = document.createElement("article");
         this.recetteCard.classList.add("template__recette__item");
         this.recetteCard.classList.add(this.id);
         this.recetteCard.setAttribute("id", this.id);
         this.recetteCard.innerHTML = recetteTemplate;
-        // insertion des éléments souhaités
+        // lier les photo en faisant correspondre les noms de recettes
         let nomPhoto = "";
         nomPhoto = this.nom;
         nomPhoto = nomPhoto.replace(/,/g, '');
         nomPhoto = nomPhoto.replace(/'/g, ' ');
         nomPhoto = nomPhoto.replace(/ /g, '-');
         nomPhoto = nomPhoto.trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036F\u1DC0-\u1DFF\u1AB0-\u1AFF]+/g, '');
-
+        // HTML
         this.recetteCard.querySelector(".template__recette__item__thumbnail").innerHTML = `
         <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
         src="./public/assets/Photos/${nomPhoto}.jpg" alt="${this.nom}" />`;
@@ -54,6 +43,7 @@ export default class Recette {
             nomIngredient.setAttribute("data-ingredient", ingredient.ingredient);
             nomIngredient.innerText = ingredient.ingredient;
             ingredientDetail.appendChild(nomIngredient);
+            // Adapter l'affichage aux différences de data (quantity/quantite, unit ou non, ponctuation inadéquate)
             if (ingredient.quantite || ingredient.quantity) {
                 const quantiteIngredient = document.createElement("span");
                 quantiteIngredient.classList.add("template__recette__item__details__content__ingredients__ingredient__quantity");
@@ -77,20 +67,25 @@ export default class Recette {
         this.recetteCard.querySelector(".template__recette__item__details__content__description").innerText = this.ellipsis();
         return this.recetteCard;
     }
-    /*listeMotsClefs() {
-        let motsClefs = [];
-        this.ingredients.forEach(ingredient => {
-            const ingredientFactore = Utils.moduleElementCapitale(ingredient.ingredient);
-            motsClefs.push(ingredientFactore);
-        })
-        const appareilFactore = Utils.moduleElementCapitale(this.appareil);
-        motsClefs.push(appareilFactore);
-        this.ustensiles.forEach(ustensile => {
-            const ustensileFactore = Utils.moduleElementCapitale(ustensile);
-            motsClefs.push(ustensileFactore);
-        })
-        return motsClefs
-    }*/
+    //// limite les descriptions à 210 caractères
+    ellipsis() {
+        ///Récupération du texte
+        let text = this.description;
+        ///On remplace les suites d'espaces par un espace
+        text = text.replace(/  +/g, ' ');
+        /// si le texte est plus long que 210 caractères, on ajoite "..."
+        if (text.length > 210) {
+            // On coupe les X premiers caractères
+            text = text.substr(0, 210);
+            //On coupe à nouveau pour enlever le dernier mot si il a été coupé en 2
+            text = text.substr(0, Math.min(text.length, text.lastIndexOf(" ")));
+            //On retourne le texte coupé avec les 3 points à la fin
+            return text + " ...";
+        } else {
+            // ou le texte si inférieur à 210 caractères
+            return text
+        }
+    }
     isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, userInput) {
         let allIsMatching = true
         //const tagsTest = this.isMatchingAllTags(tags);
@@ -98,8 +93,9 @@ export default class Recette {
         const appareilsTest = this.isMatchingAppareilsTags(appareilsTags);
         const ustensilesTest = this.isMatchingUstensilesTags(ustensilesTags);
         const userInputTest = this.isMatchingUserInput(userInput);
-        allIsMatching = ingredientsTest && appareilsTest && ustensilesTest && userInputTest // retourne si les 4 conditions sont true
-
+        // allIsMatching est true si les 4 tests sont true
+        allIsMatching = ingredientsTest && appareilsTest && ustensilesTest && userInputTest
+        // gestion de l'affichage des recettes en CSS
         if (allIsMatching) {
             Utils.afficherItem(this.recetteCard);
             this.visible = true;
@@ -114,20 +110,23 @@ export default class Recette {
         let ingredientsTest = true;
         if (ingredientsTags.length > 0) {
             ingredientsTags.forEach(ingredientTag => {
-                const ingredientFind = this.ingredients.find(ingredient => { ///filtre le tableau d'objets tout en fonctionnant "comme" un forEach, et renvoi un objet ingredient
-                    return Utils.moduleElementUniformise(ingredient.ingredient) === Utils.moduleElementUniformise(ingredientTag); // renvoi (ingredient) si true ou undefined si false
+                // pour chaque ingredient du tableau d'objet, on cherche une correspondance
+                const ingredientFind = this.ingredients.find(ingredient => {
+                    // renvoi l'ingredient(true) ou undefined(false)
+                    return Utils.uniformise(ingredient.ingredient) === Utils.uniformise(ingredientTag);
                 })
-                // ingredientFind ci-dessous revient a : ingredientFind is valid ? true si valeur, false si undefined, un objet peut ainsi devient un booléen
-                ingredientsTest = ingredientFind && ingredientsTest;  // pour la mémoire persistante du résultat précédent (true+false == false (logique combinatoire))
+                // logique combinatoire (mémoire persistante) : true + true = true, 1 seul "false" transforme le résultat en false
+                ingredientsTest = ingredientFind && ingredientsTest;
             })
         }
-        return ingredientsTest; // renvoi true si tous les tags d'ingrédients sont trouvés dans la liste d'ingredients de LA recette
+        // renvoi true si tous les tags d'ingrédients sont trouvés dans la liste d'ingredients de la recette
+        return ingredientsTest;
     }
     isMatchingAppareilsTags(appareilsTags) {
         let appareilsTest = true;
         if (appareilsTags.length > 0) {
             appareilsTags.forEach(appareilTag => {
-                const appareilFind = Utils.moduleElementUniformise(this.appareil).includes(Utils.moduleElementUniformise(appareilTag));
+                const appareilFind = Utils.uniformise(this.appareil).includes(Utils.uniformise(appareilTag));
                 appareilsTest = appareilFind && appareilsTest;
             })
         }
@@ -138,28 +137,27 @@ export default class Recette {
         if (ustensilesTags.length > 0) {
             ustensilesTags.forEach(ustensileTag => {
                 const ustensileFind = this.ustensiles.find(ustensile => {
-                    return Utils.moduleElementUniformise(ustensile) === Utils.moduleElementUniformise(ustensileTag);
+                    return Utils.uniformise(ustensile) === Utils.uniformise(ustensileTag);
                 })
                 ustensilesTest = ustensileFind && ustensilesTest;
             })
         }
         return ustensilesTest;
     }
+    //// algorithme de recherche : version 1 - programmation fonctionnelle et méthode de l'objet Array (forEach, find)
     isMatchingUserInput(userInput) {
         let userInputTest = true
 
         if (userInput.length >= 3) {
-            let instanceSaisie = Utils.moduleElementUniformise(userInput);
+            let instanceSaisie = Utils.uniformise(userInput);
             let saisieUser = instanceSaisie.split(" ");
 
             saisieUser.forEach(motSaisi => {
-                const motSaisiUniformise = Utils.moduleElementUniformise(motSaisi)
-                const ingredientsTest = this.ingredients.find(ingredient => Utils.moduleElementUniformise(ingredient.ingredient).includes(motSaisiUniformise)); //renvoi objet ingredient(true) ou undefined (false)
-                //const appareilsTest = Utils.moduleElementUniformise(this.appareil).includes(motSaisiUniformise);
-                //const ustensilesTest = this.ustensiles.find(ustensile => Utils.moduleElementUniformise(ustensile).includes(motSaisiUniformise));
-                const titreTest = Utils.moduleElementUniformise(this.nom).includes(motSaisiUniformise);
-                const descriptionTest = Utils.moduleElementUniformise(this.description).includes(motSaisiUniformise);
-                // besoin d'un seul True sur les 5 tests...
+                const motSaisiUniformise = Utils.uniformise(motSaisi)
+                const ingredientsTest = this.ingredients.find(ingredient => Utils.uniformise(ingredient.ingredient).includes(motSaisiUniformise));
+                const titreTest = Utils.uniformise(this.nom).includes(motSaisiUniformise);
+                const descriptionTest = Utils.uniformise(this.description).includes(motSaisiUniformise);
+                // besoin d'un seul True sur tous les tests...
                 userInputTest = userInputTest && (ingredientsTest || titreTest || descriptionTest);
             })
         }

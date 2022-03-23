@@ -1,5 +1,5 @@
-//// Fonction de mise en forme des éléments des modules   //// utils
 export default class Utils {
+    //// Fonctions de mise en forme des éléments des modules
     static moduleElementCapitale(element) {
         if (typeof element !== 'string') {
             return '';
@@ -9,7 +9,8 @@ export default class Utils {
             return elementModifie.charAt(0).toUpperCase() + elementModifie.slice(1);
         }
     }
-    static moduleElementUniformise(element) {
+    //// Fonction d'uniformisation des textes pour comparaisons
+    static uniformise(element) {
         if (typeof element !== 'string') {
             return '';
         } else {
@@ -18,6 +19,7 @@ export default class Utils {
             return elementUniforme;
         }
     }
+    //// Affiche ou non le message "aucun résultat"
     static noResultHelper(match) {
         const noResult = document.getElementById("no-result");
         if (!match) {
@@ -26,10 +28,12 @@ export default class Utils {
             noResult.classList.add("hidden")
         }
     }
+    //// permet de masquer un objet HTML via CSS
     static masquerItem(item) {
         item.classList.add("hidden");
 
     }
+    //// permet d'afficher un objet HTML via CSS
     static afficherItem(item) {
         item.classList.remove("hidden");
     }

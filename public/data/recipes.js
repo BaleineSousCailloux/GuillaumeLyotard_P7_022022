@@ -1,8 +1,3 @@
-/**************
-export default []
-export const recipes = []
-*//////////////
-
 const recipes = [
     {
         "id": 1,
