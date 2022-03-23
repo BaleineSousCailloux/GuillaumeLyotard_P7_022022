@@ -27,14 +27,10 @@ export default class Utils {
         }
     }
     static masquerItem(item) {
-        if (!item.classList.contains("hidden")) {
-            item.classList.add("hidden");
-        }
+        item.classList.add("hidden");
 
     }
     static afficherItem(item) {
-        if (item.classList.contains("hidden")) {
-            item.classList.remove("hidden");
-        }
+        item.classList.remove("hidden");
     }
 }

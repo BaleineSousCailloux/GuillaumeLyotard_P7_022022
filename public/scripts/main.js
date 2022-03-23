@@ -53,16 +53,61 @@ const creerListes = () => {
     recettesListe.forEach(recette => {
         domSectionResult.appendChild(recette.createRecetteCard());
     })
+
+    console.log(ingredientsListeForModule);
+}
+
+let tempIngredientsListeForModule = ingredientsListeForModule;
+let tempAppareilsListeForModule = appareilsListeForModule;
+let tempUstensilesListeForModule = ustensilesListeForModule;
+
+const majListes = () => {
+    tempIngredientsListeForModule = [];
+    tempAppareilsListeForModule = [];
+    tempUstensilesListeForModule = [];
+    recettesListe.forEach(recette => {
+        if (recette.visible == true) {
+            recette.ingredients.forEach(ingredient => {
+                const ingredientModifie = Utils.moduleElementCapitale(ingredient.ingredient);
+                if (!tempIngredientsListeForModule.includes(ingredientModifie)) {
+                    tempIngredientsListeForModule.push(ingredientModifie);
+                }
+            })
+            const appareilModifie = Utils.moduleElementCapitale(recette.appareil);
+            if (!tempAppareilsListeForModule.includes(appareilModifie)) {
+                tempAppareilsListeForModule.push(appareilModifie);
+            }
+            recette.ustensiles.forEach(ustensile => {
+                const ustensileModifie = Utils.moduleElementCapitale(ustensile);
+                if (!tempUstensilesListeForModule.includes(ustensileModifie)) {
+                    tempUstensilesListeForModule.push(ustensileModifie);
+                }
+            })
+
+
+        }
+    })
+    tempIngredientsListeForModule.sort();
+    tempAppareilsListeForModule.sort();
+    tempUstensilesListeForModule.sort();
+
+    createItemsForModule(tempIngredientsListeForModule, ingredient);
+    createItemsForModule(tempAppareilsListeForModule, appareil);
+    createItemsForModule(tempUstensilesListeForModule, ustensile);
+
+    console.log(tempIngredientsListeForModule);
 }
 
 
 /// fonction pour créer les tags des modules + LISTENER "click"
 const createItemsForModule = (list, itemType) => {
+    document.getElementById(`list-${itemType}`).innerHTML = ""; // RAZ avant insertion
     /// pour chaque liste d'items, on crée la liste qui sera insérée dans chaque type de module
     list.forEach(item => {
         const domElement = document.createElement("li");
         domElement.classList.add(`search__modules__container__module__list__${itemType}`);
         domElement.setAttribute("data-type", itemType);
+        domElement.setAttribute("id", item);
         domElement.innerHTML = item;
         document.getElementById(`list-${itemType}`).appendChild(domElement);
         /// LISTENER : possibilité de selection d'un item de la liste, si pas encore sélectionné
@@ -75,30 +120,35 @@ const createItemsForModule = (list, itemType) => {
                     if (!ingredientsTags.includes(item)) {
                         createTagSelected(item, itemType);
                         ingredientsTags.push(item);
+                        closeModule(moduleIngredients);
                     }
                     break
                 case "appareil":
                     if (!appareilsTags.includes(item)) {
                         createTagSelected(item, itemType);
                         appareilsTags.push(item);
+                        closeModule(moduleAppareils);
                     }
                     break
                 case "ustensile":
                     if (!ustensilesTags.includes(item)) {
                         createTagSelected(item, itemType);
                         ustensilesTags.push(item);
+                        closeModule(moduleUstensiles);
                     }
                     break
                 default:
                     console.log("selection de l'" + item + " impossible")
                     break
             }
+            Utils.masquerItem(domElement);
             let isRecetteMatching = false;
             recettesListe.forEach(recette => {
                 const isMatching = recette.isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, saisieUtilisateur);
                 isRecetteMatching = isRecetteMatching || isMatching;
             })
             Utils.noResultHelper(isRecetteMatching);
+            majListes();
         })
     })
 }
@@ -111,24 +161,25 @@ const moduleIngredients = document.getElementById("module-ingredients");
 const moduleAppareils = document.getElementById("module-appareil");
 const moduleUstensiles = document.getElementById("module-ustensiles");
 // Création du tableau de tag correspondant à la saisie utilisateur dans l'input du module
-let targetItems = [];
 // Fonction ouverture du module + LISTENER "keyup" sur l'input intégré
-const openModule = (moduleConcerne, listeOriginale, itemType) => {
+const openModule = (moduleConcerne, listeOriginale) => {
     /// recherche dans les éléments du module
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").addEventListener("keyup", key => {
         let saisieUser = Utils.moduleElementUniformise(key.target.value);
-        targetItems = []; /// RAZ du tableau
-        if (saisieUser.length > 0) {
+        if (saisieUser.length > 1) {
+
             listeOriginale.forEach(item => {
                 let mots = Utils.moduleElementUniformise(item);
-                if (mots.includes(saisieUser) && !targetItems.includes(item)) {
-                    targetItems.push(item);
-                    document.getElementById(`list-${itemType}`).innerHTML = "";
-                    createItemsForModule(targetItems, itemType);
-                } else {
-                    targetItems = targetItems.filter(items => items !== item);
-                    document.getElementById(`list-${itemType}`).innerHTML = "";
-                    createItemsForModule(targetItems, itemType);
+                if (mots.includes(saisieUser) && document.getElementById(item)) {
+                    Utils.afficherItem(document.getElementById(item));
+                } else if (!mots.includes(saisieUser) && document.getElementById(item)) {
+                    Utils.masquerItem(document.getElementById(item));
+                }
+            })
+        } else {
+            listeOriginale.forEach(item => {
+                if (document.getElementById(item)) {
+                    Utils.afficherItem(document.getElementById(item));
                 }
             })
         }
@@ -138,32 +189,32 @@ const openModule = (moduleConcerne, listeOriginale, itemType) => {
     Utils.afficherItem(moduleConcerne.querySelector(".search__modules__container__module__list"));
 }
 // fonction fermeture du module
-const closeModule = (moduleConcerne, listeOriginale, itemType) => {
+const closeModule = (moduleConcerne) => {
     moduleConcerne.classList.remove("expanded");
     Utils.masquerItem(moduleConcerne.querySelector(".search__modules__container__module__list"));
     /// RAZ input + ré-insertion de l'ensemble des tags existants
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").value = "";
-    document.getElementById(`list-${itemType}`).innerHTML = "";
-    createItemsForModule(listeOriginale, itemType);
+    //document.getElementById(`list-${itemType}`).innerHTML = "";
+    majListes();
 }
 // fonction ouverture/fermeture au "click"
-const openCloseModules = (module, listeOriginale, itemType) => {
+const openCloseModules = (module, listeOriginale) => {
     if (!module.classList.contains("expanded")) {
         module.addEventListener("click", (open) => {
             open.preventDefault();
             open.stopPropagation();
             /// A la demande d'ouverture d'un module, en fermer un autre déjà ouvert
             if (moduleIngredients.classList.contains("expanded") || moduleAppareils.classList.contains("expanded") || moduleUstensiles.classList.contains("expanded")) {
-                closeModule(moduleIngredients, ingredientsListeForModule, ingredient);
-                closeModule(moduleAppareils, appareilsListeForModule, appareil);
-                closeModule(moduleUstensiles, ustensilesListeForModule, ustensile);
+                closeModule(moduleIngredients);
+                closeModule(moduleAppareils);
+                closeModule(moduleUstensiles);
             }
-            openModule(module, listeOriginale, itemType);
+            openModule(module, listeOriginale);
             /// fermer le module au "click" en dehors de celui-ci
             document.getElementById("body").addEventListener("click", (close) => {
                 close.preventDefault();
-                close.stopPropagation();
-                closeModule(module, listeOriginale, itemType);
+                //close.stopPropagation();
+                closeModule(module);
             })
         })
     }
@@ -178,7 +229,7 @@ const createTagSelected = (tagSelected, tagType) => {
     const tagItem = document.createElement("article");
     tagItem.classList.add("template__tag__item");
     tagItem.setAttribute("data-tag", tagSelected)
-
+    console.log(tagSelected);
     /// Détermine la couleur en CSS
     tagItem.setAttribute("id", tagType)
 
@@ -188,7 +239,7 @@ const createTagSelected = (tagSelected, tagType) => {
     /// possibilité supprimer le tag + MAJ tableau des tags sélectionnés
     tagItem.querySelector(".template__tag__item__icon").addEventListener("click", (tagClose) => {
         tagClose.preventDefault();
-        tagClose.stopPropagation();
+        //tagClose.stopPropagation();
         switch (tagType) {
             case "ingredient":
                 if (ingredientsTags.includes(tagSelected)) {
@@ -216,6 +267,7 @@ const createTagSelected = (tagSelected, tagType) => {
             isRecetteMatching = isRecetteMatching || isMatching;
         })
         Utils.noResultHelper(isRecetteMatching);
+        majListes();
     })
 }
 
@@ -231,26 +283,32 @@ const recherchePrincipale = () => {
             isRecetteMatching = isRecetteMatching || isMatching;
         })
         Utils.noResultHelper(isRecetteMatching);
+        majListes();
     })
     document.getElementById("search-bar-input").addEventListener("keyup", clef => {
         clef.preventDefault();
         saisieUtilisateur = clef.target.value;
         let isRecetteMatching = false;
         recettesListe.forEach(recette => {
+            console.log(ingredientsTags);
             const isMatching = recette.isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, saisieUtilisateur);
             isRecetteMatching = isRecetteMatching || isMatching;
         })
         Utils.noResultHelper(isRecetteMatching);
+        majListes();
+
+
     })
 }
 const init = () => {
     creerListes();
-    createItemsForModule(ingredientsListeForModule, ingredient);
-    createItemsForModule(appareilsListeForModule, appareil);
-    createItemsForModule(ustensilesListeForModule, ustensile);
-    openCloseModules(moduleIngredients, ingredientsListeForModule, ingredient);
-    openCloseModules(moduleAppareils, appareilsListeForModule, appareil);
-    openCloseModules(moduleUstensiles, ustensilesListeForModule, ustensile);
+    createItemsForModule(tempIngredientsListeForModule, ingredient);
+    createItemsForModule(tempAppareilsListeForModule, appareil);
+    createItemsForModule(tempUstensilesListeForModule, ustensile);
+    openCloseModules(moduleIngredients, tempIngredientsListeForModule);
+    openCloseModules(moduleAppareils, tempAppareilsListeForModule);
+    openCloseModules(moduleUstensiles, tempAppareilsListeForModule);
     recherchePrincipale()
+
 }
 init();
