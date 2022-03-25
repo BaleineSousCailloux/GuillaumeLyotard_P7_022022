@@ -163,4 +163,34 @@ export default class Recette {
         }
         return userInputTest;
     }
+
+    /*/// algorithme de recherche : version 2 - programmation avec boucles natives
+    isMatchingUserInput(userInput) {
+        let userInputTest = true
+
+        if (userInput.length >= 3) {
+            let instanceSaisie = Utils.uniformise(userInput);
+            let saisieUser = instanceSaisie.split(" ");
+            let n = 0
+
+            do {
+                let saisieUniformisee = Utils.uniformise(saisieUser[n]);
+                const testIngredients = () => {
+                    let ingredientsTest = false;
+                    for (let i = 0; i < this.ingredients.length; i++) {
+                        let ingredientUniformise = Utils.uniformise(this.ingredients[i].ingredient);
+                        if (ingredientUniformise.includes(saisieUniformisee)) {
+                            ingredientsTest = true;
+                        }
+                    }
+                    return ingredientsTest
+                }
+                const titreTest = Utils.uniformise(this.nom).includes(saisieUniformisee);
+                const descriptionTest = Utils.uniformise(this.description).includes(saisieUniformisee);
+                userInputTest = userInputTest && (testIngredients() || titreTest || descriptionTest);
+                n++;
+            } while (n < saisieUser.length)
+        }
+        return userInputTest;
+    }*/
 }
