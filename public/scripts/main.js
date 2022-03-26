@@ -26,6 +26,7 @@ let ustensilesListeForModule = [];
 let ingredientsTags = [];
 let appareilsTags = [];
 let ustensilesTags = [];
+let tagsWidthCunt = 0;
 
 
 //// Fonction de création de la liste de recettes
@@ -122,6 +123,7 @@ const createItemsForModule = (list, itemType) => {
         domElement.addEventListener("click", (tagClick) => {
             tagClick.preventDefault();
             tagClick.stopPropagation();
+            console.log(tagSection)
             /// si la liste de tags sélectionnés n'inclue pas déjà l'item, on crée le tag et on l'ajoute à la liste de tags sélectionnés
             switch (itemType) {
                 case "ingredient":
@@ -224,6 +226,11 @@ const createTagSelected = (tagSelected, tagType) => {
     tagItem.innerHTML = tagTemplate;
     tagItem.querySelector(".template__tag__item__title").innerText = tagSelected;
     tagSection.appendChild(tagItem);
+    tagsWidthCunt = tagsWidthCunt + tagItem.clientWidth;
+    /// Décaler la section resultat si tags sélectionnés > 1 ligne
+    if (tagsWidthCunt > (tagSection.clientWidth - tagItem.clientWidth)) {
+        domSectionResult.style.marginTop = "223px";
+    }
     /// possibilité supprimer le tag (Listener "click")
     tagItem.querySelector(".template__tag__item__icon").addEventListener("click", (tagClose) => {
         tagClose.preventDefault();
@@ -248,7 +255,13 @@ const createTagSelected = (tagSelected, tagType) => {
                 console.log("erreur dans la suppression de " + tagSelected)
                 break
         }
+        /// décaler la section résultat si tags sélectionnés repassent de 2 lignes à 1 ligne
+        tagsWidthCunt = tagsWidthCunt - tagItem.clientWidth;
+        if (tagsWidthCunt < (tagSection.clientWidth - tagItem.clientWidth)) {
+            domSectionResult.style.marginTop = "166px";
+        }
         tagSection.removeChild(tagItem);
+
         /// affichage des recettes trouvées
         recettesTrouvees();
     })

@@ -1,0 +1,77 @@
+@use "./utils/variables" as v;
+@use "./utils/mixins" as m;
+@use "./base/body";
+@use "./base/link";
+@use "./layouts/header";
+@use "./layouts/recette";
+@use "./layouts/tag";
+
+.main {
+    .search__bar {
+        &__input {
+            height: 59px; ///////
+        }
+    }
+    .search__modules {
+        position: absolute;
+        top: 200px;
+        left: 0;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0 7% 0 7%;
+        
+        &__container {
+            flex-direction: column; ///////
+            margin: 0px 0;  //////////
+            &__module {
+                min-width: 100%; /////////
+                min-height: 59px;  ////////
+                margin: 0 0 10px 0; /////
+                &#module-ustensiles, &#module-appareil {
+                    margin-left: 0px; /////////
+                }
+                
+                &__bar {
+                    height: 59px;
+                }
+                &__list {
+                    width: 100%; /////
+                    max-height: 250px; ///////////////
+                    column-gap: 20px;
+                    row-gap: 15px;
+                    &__ingredient, &__appareil, &__ustensile {
+                        min-width: 33%;
+                    }
+                }
+            }
+        }
+    }
+}
+#result-section {
+    display: grid;
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
+    margin-top: 218px;
+    padding: 0 7% 150px 7%;
+    grid-template-columns: 1fr 1fr; ///////
+    gap: 50px;
+}
+#no-result {
+    padding: 25px;
+    .no__result__main {
+        @include m.txt_gras;
+    }
+    .no__result__help {
+        @include m.txt_normal;
+    }
+}
+.hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    top: -20000px;
+    left: -20000px;
+}

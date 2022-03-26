@@ -87,7 +87,6 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    min-width: 170px;
                     height: 69px;
                     &__input {
                         width: 100px;
@@ -123,7 +122,7 @@
                     grid-gap: 20px;
                     @include m.txt_normal;
                     font-size: 1.125em;
-                    line-height: 1em;
+                    line-height: 1.125em;
                     margin: 0;
                     padding: 15px 0 25px 0;
                     overflow-y: scroll;
@@ -157,15 +156,14 @@
     background-color: v.$ustensiles;
 }
 #result-section {
+    display: grid;
     width: 100%;
+    height: fit-content;
     box-sizing: border-box;
     margin-top: 166px;
-    padding: 0 calc(7% - 25px) 0 calc(7% - 25px);
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
+    padding: 0 7% 150px 7%;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 50px;
 }
 #no-result {
     padding: 25px;

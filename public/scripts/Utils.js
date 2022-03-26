@@ -6,7 +6,7 @@ export default class Utils {
         } else {
             let elementModifie = element.trim().toLowerCase();
             elementModifie = elementModifie.replaceAll(/[.,!?]/g, "");
-            return elementModifie.charAt(0).toUpperCase() + elementModifie.slice(1);
+            return elementModifie.charAt(0).toUpperCase().normalize('NFKD').replace(/[\u0300-\u036F\u1DC0-\u1DFF\u1AB0-\u1AFF]+/g, '') + elementModifie.slice(1);
         }
     }
     //// Fonction d'uniformisation des textes pour comparaisons
