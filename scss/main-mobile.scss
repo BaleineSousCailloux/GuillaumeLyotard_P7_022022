@@ -1,0 +1,72 @@
+@use "./utils/variables" as v;
+@use "./utils/mixins" as m;
+@use "./base/body";
+@use "./base/link";
+@use "./layouts/header";
+@use "./layouts/recette";
+@use "./layouts/tag";
+
+.main {
+    .search__bar {
+        padding: 0 4% 0 4%;
+        &__input {
+            height: 59px;
+        }
+    }
+    .search__modules {
+        display: none;
+    }
+}
+#result-section {
+    margin-top: 15px;
+    flex-direction: column;
+    padding: 0 4% 80px 4%;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+#no-result {
+    padding: 15px;
+}
+.template__recette__item {
+    min-width: 340px;
+    min-height: 290px;
+    &__thumbnail {
+        height: 150px;
+    }
+    &__details {
+        min-height: 140px;
+        &__header {
+            line-height: 20px;
+            padding: 0.75em 0.75em 0 0.75em;
+            &__title {
+                font-size: 1.075em;
+                max-width: calc(100% - 96px);
+            }
+            &__infos {
+                &__icon {
+                    width: 18px;
+                    height: 18px;
+                    padding-right: 6px;
+                }
+                &__time {
+                    font-size: 1.075em;
+                }
+            }
+        }
+        &__content {
+            max-width: 100%;
+            line-height: 0.9em;
+            margin: 0.9em;
+            &__ingredients {
+                padding: 0 0.75em 0 0;
+                &__ingredient {
+                    font-size: 0.7em;
+                }
+            }
+            &__description {
+                box-sizing: border-box;
+                font-size: 0.7em;
+            }
+        }
+    }
+}

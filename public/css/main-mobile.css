@@ -197,6 +197,9 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   background-color: #ED6454;
 }
 
+.main .search__bar {
+  padding: 0 4% 0 4%;
+}
 .main .search__bar__input {
   height: 59px;
 }
@@ -205,7 +208,55 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
 }
 
 #result-section {
-  margin-top: 20px;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  margin-top: 15px;
+  flex-direction: column;
+  padding: 0 4% 80px 4%;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+#no-result {
+  padding: 15px;
+}
+
+.template__recette__item {
+  min-width: 340px;
+  min-height: 290px;
+}
+.template__recette__item__thumbnail {
+  height: 150px;
+}
+.template__recette__item__details {
+  min-height: 140px;
+}
+.template__recette__item__details__header {
+  line-height: 20px;
+  padding: 0.75em 0.75em 0 0.75em;
+}
+.template__recette__item__details__header__title {
+  font-size: 1.075em;
+  max-width: calc(100% - 96px);
+}
+.template__recette__item__details__header__infos__icon {
+  width: 18px;
+  height: 18px;
+  padding-right: 6px;
+}
+.template__recette__item__details__header__infos__time {
+  font-size: 1.075em;
+}
+.template__recette__item__details__content {
+  max-width: 100%;
+  line-height: 0.9em;
+  margin: 0.9em;
+}
+.template__recette__item__details__content__ingredients {
+  padding: 0 0.75em 0 0;
+}
+.template__recette__item__details__content__ingredients__ingredient {
+  font-size: 0.7em;
+}
+.template__recette__item__details__content__description {
+  box-sizing: border-box;
+  font-size: 0.7em;
 }

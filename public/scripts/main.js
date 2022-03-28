@@ -123,7 +123,6 @@ const createItemsForModule = (list, itemType) => {
         domElement.addEventListener("click", (tagClick) => {
             tagClick.preventDefault();
             tagClick.stopPropagation();
-            console.log(tagSection)
             /// si la liste de tags sélectionnés n'inclue pas déjà l'item, on crée le tag et on l'ajoute à la liste de tags sélectionnés
             switch (itemType) {
                 case "ingredient":
