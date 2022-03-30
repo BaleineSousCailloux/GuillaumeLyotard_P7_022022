@@ -94,7 +94,7 @@ const listesItems = () => {
     createItemsForModule(ustensilesListeForModule, ustensile);
 }
 
-//// fonction qui vérifie l'ensemble des conditions (input principal et tags sélectionnés avant d'afficher les recettes correspondantes
+//// fonction qui vérifie l'ensemble des conditions (input principal et tags sélectionnés) avant d'afficher les recettes correspondantes
 const recettesTrouvees = () => {
     /// boucle native pour parcourir les recettes
     let z = 0;
