@@ -96,11 +96,14 @@ const listesItems = () => {
 
 //// fonction qui vérifie l'ensemble des conditions (input principal et tags sélectionnés avant d'afficher les recettes correspondantes
 const recettesTrouvees = () => {
+    /// boucle native pour parcourir les recettes
+    let z = 0;
     let isRecetteMatching = false;
-    recettesListe.forEach(recette => {
-        const isMatching = recette.isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, saisieUtilisateur);
+    do {
+        const isMatching = recettesListe[z].isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, saisieUtilisateur);
         isRecetteMatching = isRecetteMatching || isMatching;
-    })
+        z++;
+    } while (z < recettesListe.length);
     /// affichage du message  "aucune recette trouvée"
     Utils.noResultHelper(isRecetteMatching);
     /// maj des listes de tags dans les modules

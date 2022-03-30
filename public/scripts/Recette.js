@@ -144,21 +144,32 @@ export default class Recette {
         }
         return ustensilesTest;
     }
-    //// algorithme de recherche : version 1 - programmation fonctionnelle et méthode de l'objet Array (forEach, find)
+    //// algorithme de recherche : version 2 - programmation avec boucles natives
     isMatchingUserInput(userInput) {
-        let userInputTest = true;
+        let userInputTest = true
 
         if (userInput.length >= 3) {
             let instanceSaisie = Utils.uniformise(userInput);
             let saisieUser = instanceSaisie.split(" ");
+            let n = 0
 
-            saisieUser.forEach(motSaisi => {
-                const ingredientsTest = this.ingredients.find(ingredient => Utils.uniformise(ingredient.ingredient).includes(motSaisi));
-                const titreTest = Utils.uniformise(this.nom).includes(motSaisi);
-                const descriptionTest = Utils.uniformise(this.description).includes(motSaisi);
-                // besoin d'un seul True sur tous les tests...
-                userInputTest = userInputTest && (ingredientsTest || titreTest || descriptionTest);
-            })
+            do {
+                const testIngredients = () => {
+                    let ingredientsTest = false;
+                    for (let i = 0; i < this.ingredients.length; i++) {
+                        let ingredientUniformise = Utils.uniformise(this.ingredients[i].ingredient);
+                        if (ingredientUniformise.includes(saisieUser[n])) {
+                            ingredientsTest = true;
+                            i = this.ingredients.length;
+                        }
+                    }
+                    return ingredientsTest
+                }
+                const titreTest = Utils.uniformise(this.nom).includes(saisieUser[n]);
+                const descriptionTest = Utils.uniformise(this.description).includes(saisieUser[n]);
+                userInputTest = userInputTest && (testIngredients() || titreTest || descriptionTest);
+                n++;
+            } while (n < saisieUser.length)
         }
         return userInputTest;
     }
