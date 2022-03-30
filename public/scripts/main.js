@@ -116,7 +116,6 @@ const createItemsForModule = (list, itemType) => {
         const domElement = document.createElement("li");
         domElement.classList.add(`search__modules__container__module__list__${itemType}`);
         domElement.setAttribute("data-type", itemType);
-        domElement.setAttribute("id", item);
         domElement.innerHTML = item;
         document.getElementById(`list-${itemType}`).appendChild(domElement);
         /// LISTENER : possibilité de selection d'un item de la liste, si pas encore sélectionné
@@ -273,11 +272,6 @@ const recherchePrincipale = () => {
         click.preventDefault();
         click.target.value = "";
         saisieUtilisateur = click.target.value;
-        let isRecetteMatching = false;
-        recettesListe.forEach(recette => {
-            const isMatching = recette.isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, saisieUtilisateur);
-            isRecetteMatching = isRecetteMatching || isMatching;
-        })
         /// affichage des recettes trouvées
         recettesTrouvees();
     })
@@ -285,11 +279,6 @@ const recherchePrincipale = () => {
     document.getElementById("search-bar-input").addEventListener("keyup", clef => {
         clef.preventDefault();
         saisieUtilisateur = clef.target.value;
-        let isRecetteMatching = false;
-        recettesListe.forEach(recette => {
-            const isMatching = recette.isMatchingAllTagsAndUserInput(ingredientsTags, appareilsTags, ustensilesTags, saisieUtilisateur);
-            isRecetteMatching = isRecetteMatching || isMatching;
-        })
         /// affichage des recettes trouvées
         recettesTrouvees();
     })

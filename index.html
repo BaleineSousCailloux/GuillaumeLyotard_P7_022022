@@ -27,18 +27,20 @@
 
     <main class="main" id="main">
 
-        <section class="search__bar" id="search-bar">
+        <div class="search__bar" id="search-bar">
+            <label for="search-bar-input" class="hidden">Barre de recherche principale</label>
             <input class="search__bar__input" type="text" id="search-bar-input" placeholder="Rechercher une recette">
             <img class="search__bar__icon" id="search-icon" src="./public/assets/search.svg" alt="icone loupe" />
-        </section>
+        </div>
 
-        <section class="search__modules" id="modules">
+        <div class="search__modules" id="modules">
             <div class="search__modules__tags" id="tags-selected">
             </div>
 
             <div class="search__modules__container" id="modules-container">
                 <div class="search__modules__container__module" id="module-ingredients" data-type="ingredients">
                     <div class="search__modules__container__module__bar" id="bar-ingredients" data-type="ingredients">
+                        <label for="input-ingredients" class="hidden">chercher un ingrédient</label>
                         <input class="search__modules__container__module__bar__input" id="input-ingredients"
                             data-type="ingredients" placeholder="Ingrédients" type="text">
                         <button class="search__modules__container__module__bar__btn" id="btn-ingredients"
@@ -54,6 +56,7 @@
 
                 <div class="search__modules__container__module" id="module-appareil" data-type="appareil">
                     <div class="search__modules__container__module__bar" id="bar-appareil" data-type="appareil">
+                        <label for="input-appareil" class="hidden">chercher un appareil</label>
                         <input class="search__modules__container__module__bar__input" id="input-appareil"
                             data-type="appareil" placeholder="Appareil" type="text">
                         <button class="search__modules__container__module__bar__btn" id="btn-appareil"
@@ -68,6 +71,7 @@
 
                 <div class="search__modules__container__module" id="module-ustensiles" data-type="ustensiles">
                     <div class="search__modules__container__module__bar" id="bar-ustensiles" data-type="ustensiles">
+                        <label for="input-ustensiles" class="hidden">chercher un ustensile</label>
                         <input class="search__modules__container__module__bar__input" id="input-ustensiles"
                             data-type="ustensiles" placeholder="Ustensiles" type="text">
                         <button class="search__modules__container__module__bar__btn" id="btn-ustensiles"
@@ -76,21 +80,21 @@
                                 src="./public/assets/arrow.svg" alt="icone chevron" />
                         </button>
                     </div>
-                    <ul class="search__modules__container__module__list hidden" valid id="list-ustensile"
+                    <ul class="search__modules__container__module__list hidden" id="list-ustensile"
                         data-type="ustensiles">
                     </ul>
                 </div>
 
             </div>
-        </section>
-        <section id="result-section">
+        </div>
+        <div id="result-section">
             <div id="no-result" class="no__result hidden">
                 <span class="no__result__main">Aucune recette ne correspond à vos critères...</span><br>
                 <span class="no__result__help">
                     vous pouvez chercher « tarte aux pommes », « poisson », etc.
                 </span>
             </div>
-        </section>
+        </div>
     </main>
 
     <script src="./public/scripts/main.js" type="module"></script>

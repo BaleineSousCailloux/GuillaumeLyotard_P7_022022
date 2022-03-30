@@ -11,7 +11,6 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: left;
     .search__bar {
         width: 100%;
         padding: 0 7% 0 7%;
@@ -166,6 +165,10 @@
     gap: 50px;
 }
 #no-result {
+    box-sizing: border-box;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    width: 100%;
     padding: 25px;
     .no__result__main {
         @include m.txt_gras;

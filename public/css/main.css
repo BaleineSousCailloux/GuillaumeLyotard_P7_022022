@@ -202,7 +202,6 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: left;
 }
 .main .search__bar {
   width: 100%;
@@ -363,6 +362,10 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
 }
 
 #no-result {
+  box-sizing: border-box;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  width: 100%;
   padding: 25px;
 }
 #no-result .no__result__main {

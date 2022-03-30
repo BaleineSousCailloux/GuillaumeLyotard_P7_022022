@@ -29,7 +29,7 @@ export default class Recette {
         nomPhoto = nomPhoto.trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036F\u1DC0-\u1DFF\u1AB0-\u1AFF]+/g, '');
         // HTML
         this.recetteCard.querySelector(".template__recette__item__thumbnail").innerHTML = `
-        <img class="template__recette__item__thumbnail__img" id="recette-thumbnail"
+        <img class="template__recette__item__thumbnail__img"
         src="./public/assets/Photos/${nomPhoto}.jpg" alt="${this.nom}" />`;
         this.recetteCard.querySelector(".template__recette__item__details__header__title").innerText = this.nom;
         this.recetteCard.querySelector(".template__recette__item__details__header__infos__time").innerText = this.temps + " min";
@@ -146,51 +146,20 @@ export default class Recette {
     }
     //// algorithme de recherche : version 1 - programmation fonctionnelle et méthode de l'objet Array (forEach, find)
     isMatchingUserInput(userInput) {
-        let userInputTest = true
+        let userInputTest = true;
 
         if (userInput.length >= 3) {
             let instanceSaisie = Utils.uniformise(userInput);
             let saisieUser = instanceSaisie.split(" ");
 
             saisieUser.forEach(motSaisi => {
-                const motSaisiUniformise = Utils.uniformise(motSaisi)
-                const ingredientsTest = this.ingredients.find(ingredient => Utils.uniformise(ingredient.ingredient).includes(motSaisiUniformise));
-                const titreTest = Utils.uniformise(this.nom).includes(motSaisiUniformise);
-                const descriptionTest = Utils.uniformise(this.description).includes(motSaisiUniformise);
+                const ingredientsTest = this.ingredients.find(ingredient => Utils.uniformise(ingredient.ingredient).includes(motSaisi));
+                const titreTest = Utils.uniformise(this.nom).includes(motSaisi);
+                const descriptionTest = Utils.uniformise(this.description).includes(motSaisi);
                 // besoin d'un seul True sur tous les tests...
                 userInputTest = userInputTest && (ingredientsTest || titreTest || descriptionTest);
             })
         }
         return userInputTest;
     }
-
-    /*/// algorithme de recherche : version 2 - programmation avec boucles natives
-    isMatchingUserInput(userInput) {
-        let userInputTest = true
-
-        if (userInput.length >= 3) {
-            let instanceSaisie = Utils.uniformise(userInput);
-            let saisieUser = instanceSaisie.split(" ");
-            let n = 0
-
-            do {
-                let saisieUniformisee = Utils.uniformise(saisieUser[n]);
-                const testIngredients = () => {
-                    let ingredientsTest = false;
-                    for (let i = 0; i < this.ingredients.length; i++) {
-                        let ingredientUniformise = Utils.uniformise(this.ingredients[i].ingredient);
-                        if (ingredientUniformise.includes(saisieUniformisee)) {
-                            ingredientsTest = true;
-                        }
-                    }
-                    return ingredientsTest
-                }
-                const titreTest = Utils.uniformise(this.nom).includes(saisieUniformisee);
-                const descriptionTest = Utils.uniformise(this.description).includes(saisieUniformisee);
-                userInputTest = userInputTest && (testIngredients() || titreTest || descriptionTest);
-                n++;
-            } while (n < saisieUser.length)
-        }
-        return userInputTest;
-    }*/
 }
