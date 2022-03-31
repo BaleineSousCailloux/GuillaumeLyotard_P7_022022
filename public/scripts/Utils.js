@@ -19,6 +19,15 @@ export default class Utils {
             return elementUniforme;
         }
     }
+    //// Fonction d'uniformisation des id pour comparaisons
+    static formeID(element) {
+        if (typeof element !== 'string') {
+            return '';
+        } else {
+            let elementUniforme = element.replaceAll(/[ ()'%]/g, "-");
+            return elementUniforme;
+        }
+    }
     //// Affiche ou non le message "aucun résultat"
     static noResultHelper(match) {
         const noResult = document.getElementById("no-result");

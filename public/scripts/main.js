@@ -115,7 +115,9 @@ const createItemsForModule = (list, itemType) => {
     list.forEach(item => {
         const domElement = document.createElement("li");
         domElement.classList.add(`search__modules__container__module__list__${itemType}`);
-        domElement.setAttribute("data-type", itemType);
+        //domElement.setAttribute("data-type", itemType);
+        let itemForId = itemType + "-" + Utils.formeID(item);
+        domElement.setAttribute("id", itemForId);   ///// PROBLEME AVEC LES ESPACES
         domElement.innerHTML = item;
         document.getElementById(`list-${itemType}`).appendChild(domElement);
         /// LISTENER : possibilité de selection d'un item de la liste, si pas encore sélectionné
@@ -159,25 +161,27 @@ const createItemsForModule = (list, itemType) => {
 
 //// ouverture/fermeture des modules de recherche
 // Fonction ouverture du module + LISTENER "keyup" sur l'input intégré
-const openModule = (moduleConcerne, listeOriginale) => {
+const openModule = (moduleConcerne, listeOriginale, itemType) => {
     /// recherche dans les éléments du module à partir de 2 caractères
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").addEventListener("keyup", key => {
+        key.preventDefault();
+        key.stopPropagation();
         let saisieUser = Utils.uniformise(key.target.value);
         if (saisieUser.length > 1) {
             listeOriginale.forEach(item => {
-                let mots = Utils.uniformise(item);
-                if (mots.includes(saisieUser) && document.getElementById(item)) {
+                let itemUniformise = Utils.uniformise(item);
+                let itemForId = itemType + "-" + Utils.formeID(item);
+                if (itemUniformise.includes(saisieUser)) {
                     /// les items sont masqués ou affichés en CSS
-                    Utils.afficherItem(document.getElementById(item));
-                } else if (!mots.includes(saisieUser) && document.getElementById(item)) {
-                    Utils.masquerItem(document.getElementById(item));
+                    Utils.afficherItem(document.querySelector(`#list-${itemType} li#${itemForId}`));
+                } else {
+                    Utils.masquerItem(document.querySelector(`#list-${itemType} li#${itemForId}`));
                 }
             })
         } else {
             listeOriginale.forEach(item => {
-                if (document.getElementById(item)) {
-                    Utils.afficherItem(document.getElementById(item));
-                }
+                let itemForId = itemType + "-" + Utils.formeID(item);
+                Utils.afficherItem(document.querySelector(`#list-${itemType} li#${itemForId}`));
             })
         }
     })
@@ -194,7 +198,7 @@ const closeModule = (moduleConcerne) => {
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").value = ""
 }
 // fonction globale d'ouverture/fermeture des modules au "click"
-const openCloseModules = (module, listeOriginale) => {
+const openCloseModules = (module, listeOriginale, itemType) => {
     if (!module.classList.contains("expanded")) {
         module.addEventListener("click", (open) => {
             open.preventDefault();
@@ -205,7 +209,7 @@ const openCloseModules = (module, listeOriginale) => {
                 closeModule(moduleAppareils);
                 closeModule(moduleUstensiles);
             }
-            openModule(module, listeOriginale);
+            openModule(module, listeOriginale, itemType);
             /// fermer le module au "click" en dehors de celui-ci
             document.getElementById("body").addEventListener("click", (close) => {
                 close.preventDefault();
@@ -220,7 +224,7 @@ const openCloseModules = (module, listeOriginale) => {
 const createTagSelected = (tagSelected, tagType) => {
     const tagItem = document.createElement("article");
     tagItem.classList.add("template__tag__item");
-    tagItem.setAttribute("id", tagType) /// Détermine la couleur en CSS
+    tagItem.classList.add(tagType); /// Détermine la couleur en CSS
     tagItem.innerHTML = tagTemplate;
     tagItem.querySelector(".template__tag__item__title").innerText = tagSelected;
     tagSection.appendChild(tagItem);
@@ -297,9 +301,9 @@ const init = () => {
     razAllInputs();
     creerRecettes();
     listesItems();
-    openCloseModules(moduleIngredients, ingredientsListeForModule);
-    openCloseModules(moduleAppareils, appareilsListeForModule);
-    openCloseModules(moduleUstensiles, ustensilesListeForModule);
+    openCloseModules(moduleIngredients, ingredientsListeForModule, ingredient);
+    openCloseModules(moduleAppareils, appareilsListeForModule, appareil);
+    openCloseModules(moduleUstensiles, ustensilesListeForModule, ustensile);
     recherchePrincipale()
 }
 init();

@@ -185,15 +185,15 @@ a:hover, a:active, a:focus, input:hover, input:active, input:focus, button:hover
   height: 20px;
 }
 
-#ingredient.template__tag__item, #ingredient .template__tag__item__icon {
+.ingredient.template__tag__item, .ingredient .template__tag__item__icon {
   background-color: #3282F7;
 }
 
-#appareil.template__tag__item, #appareil .template__tag__item__icon {
+.appareil.template__tag__item, .appareil .template__tag__item__icon {
   background-color: #68D9A4;
 }
 
-#ustensile.template__tag__item, #ustensile .template__tag__item__icon {
+.ustensile.template__tag__item, .ustensile .template__tag__item__icon {
   background-color: #ED6454;
 }
 

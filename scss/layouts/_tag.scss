@@ -30,12 +30,12 @@
         }
     }
 }
-#ingredient.template__tag__item, #ingredient .template__tag__item__icon {
+.ingredient.template__tag__item, .ingredient .template__tag__item__icon {
     background-color: v.$ingredients;
 }
-#appareil.template__tag__item, #appareil .template__tag__item__icon {
+.appareil.template__tag__item, .appareil .template__tag__item__icon {
     background-color: v.$appareils;
 }
-#ustensile.template__tag__item, #ustensile .template__tag__item__icon {
+.ustensile.template__tag__item, .ustensile .template__tag__item__icon {
     background-color: v.$ustensiles;
 }
