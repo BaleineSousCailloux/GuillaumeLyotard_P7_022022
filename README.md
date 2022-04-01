@@ -1,1 +1,1 @@
-# GuillaumeLyotard_P7_23092021
+Projet 7 : Développez un algorithme de recherche en JavaScript
