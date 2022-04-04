@@ -71,13 +71,13 @@ export default class Recette {
     ellipsis() {
         ///Récupération du texte
         let text = this.description;
-        ///On remplace les suites d'espaces par un espace
+        ///On remplace les suites d'espaces par un seul espace
         text = text.replace(/  +/g, ' ');
-        /// si le texte est plus long que 210 caractères, on ajoite "..."
+        /// si le texte est plus long que 210 caractères...
         if (text.length > 210) {
-            // On coupe les X premiers caractères
+            // On coupe les X premiers caractères...
             text = text.substr(0, 210);
-            //On coupe à nouveau pour enlever le dernier mot si il a été coupé en 2
+            //On coupe à nouveau pour enlever le dernier mot si il a été coupé en 2...
             text = text.substr(0, Math.min(text.length, text.lastIndexOf(" ")));
             //On retourne le texte coupé avec les 3 points à la fin
             return text + " ...";
