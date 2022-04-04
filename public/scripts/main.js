@@ -167,23 +167,28 @@ const openModule = (moduleConcerne, listeOriginale, itemType) => {
     /// recherche dans les éléments du module à partir de 2 caractères
     moduleConcerne.querySelector(".search__modules__container__module__bar__input").addEventListener("keyup", key => {
         key.preventDefault();
-        key.stopPropagation();
+        //key.stopPropagation();
         let saisieUser = Utils.uniformise(key.target.value);
         if (saisieUser.length > 1) {
             listeOriginale.forEach(item => {
                 let itemUniformise = Utils.uniformise(item);
                 let itemForId = itemType + "-" + Utils.formeID(item);
-                if (itemUniformise.includes(saisieUser)) {
+                if (itemUniformise.includes(saisieUser) && document.querySelector(`#list-${itemType} li#${itemForId}`)) {
                     /// les items sont masqués ou affichés en CSS
                     Utils.afficherItem(document.querySelector(`#list-${itemType} li#${itemForId}`));
-                } else {
+                } else if (!itemUniformise.includes(saisieUser) && document.querySelector(`#list-${itemType} li#${itemForId}`)) {
                     Utils.masquerItem(document.querySelector(`#list-${itemType} li#${itemForId}`));
                 }
             })
         } else {
+
+
             listeOriginale.forEach(item => {
                 let itemForId = itemType + "-" + Utils.formeID(item);
-                Utils.afficherItem(document.querySelector(`#list-${itemType} li#${itemForId}`));
+                if (document.querySelector(`#list-${itemType} li#${itemForId}`)) {
+                    let itemForId = itemType + "-" + Utils.formeID(item);
+                    Utils.afficherItem(document.querySelector(`#list-${itemType} li#${itemForId}`));
+                }
             })
         }
     })
