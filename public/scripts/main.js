@@ -311,4 +311,6 @@ const init = () => {
     openCloseModules(moduleUstensiles, ustensilesListeForModule, ustensile);
     recherchePrincipale()
 }
+
+//// Appel global
 init();
